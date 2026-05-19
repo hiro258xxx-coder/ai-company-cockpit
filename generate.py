@@ -67,7 +67,7 @@ TEMPLATE = """\
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-Cockpit | 岩嵜 AI カンパニー 統合司令室</title>
+  <title>K-Cockpit | AI カンパニー 統合指令室</title>
   <style>
     :root {
       --bg:#08080f;--s1:#0f0f1c;--s2:#161626;--s3:#1e1e30;
@@ -112,13 +112,10 @@ TEMPLATE = """\
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(to bottom,
-          rgba(8,8,15,.82) 0%,
-          rgba(8,8,15,.05) 30%,
-          rgba(8,8,15,.05) 58%,
-          rgba(8,8,15,.94) 100%),
-        url('images/commander.png') center top / cover no-repeat,
-        #08080f;
+        repeating-linear-gradient(60deg,transparent 0,transparent 28px,rgba(56,189,248,.05) 28px,rgba(56,189,248,.05) 29px),
+        repeating-linear-gradient(-60deg,transparent 0,transparent 28px,rgba(56,189,248,.05) 28px,rgba(56,189,248,.05) 29px),
+        radial-gradient(ellipse at 50% 60%,rgba(56,189,248,.18) 0%,transparent 55%),
+        linear-gradient(160deg,#050810 0%,#060a14 100%);
       border:1px solid rgba(56,189,248,.22)}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
@@ -148,8 +145,8 @@ TEMPLATE = """\
     .hero-edit:hover{text-decoration:underline}
     /* Hero bottom */
     .hero-bottom{padding:0 28px 24px;position:relative;z-index:6}
-    .hero-name{font-size:32px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1;margin-bottom:3px}
-    .hero-role{font-size:12px;color:var(--td);margin-bottom:18px}
+    .hero-sys-title{font-size:38px;font-weight:900;color:#fff;letter-spacing:.06em;line-height:1;margin-bottom:4px;text-transform:uppercase}
+    .hero-sys-sub{font-size:11px;color:var(--td);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
     /* Metric chips */
     .hero-metrics{display:flex;gap:10px;flex-wrap:wrap}
     .hero-metric{
@@ -373,8 +370,13 @@ TEMPLATE = """\
     /* ── Per-theme Hero backgrounds ── */
     [data-theme="architect"] .hero{
       background:
-        linear-gradient(to bottom,rgba(5,10,24,.82) 0%,rgba(5,10,24,.04) 30%,rgba(5,10,24,.04) 58%,rgba(5,10,24,.94) 100%),
-        url('images/architect.png') center top / cover no-repeat,#050a18;
+        linear-gradient(rgba(85,170,255,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(85,170,255,.07) 1px,transparent 1px),
+        linear-gradient(rgba(85,170,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(85,170,255,.025) 1px,transparent 1px),
+        radial-gradient(ellipse at 50% 45%,rgba(85,170,255,.22) 0%,transparent 55%),
+        #040d1e;
+      background-size:40px 40px,40px 40px,8px 8px,8px 8px,100%,100%;
       border-color:rgba(85,170,255,.22)}
     [data-theme="architect"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.7),rgba(85,119,238,.6),transparent)}
@@ -382,16 +384,17 @@ TEMPLATE = """\
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.05),transparent)}
     [data-theme="strategist"] .hero{
       background:
-        linear-gradient(to bottom,rgba(240,240,234,.92) 0%,rgba(240,240,234,.1) 30%,rgba(240,240,234,.1) 58%,rgba(240,240,234,.96) 100%),
-        url('images/strategist.png') center top / cover no-repeat,#f0f0ea;
-      border-color:rgba(26,80,138,.2)}
+        radial-gradient(ellipse at 75% 40%,rgba(26,80,138,.1) 0%,transparent 50%),
+        radial-gradient(ellipse at 25% 70%,rgba(42,112,64,.07) 0%,transparent 45%),
+        linear-gradient(135deg,#f5f4ee 0%,#ede8d8 100%);
+      border-color:rgba(26,80,138,.18)}
     [data-theme="strategist"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(26,80,138,.4),rgba(90,58,138,.3),transparent)}
     [data-theme="strategist"] .hero::after{
       background:linear-gradient(90deg,transparent,rgba(26,80,138,.05),transparent)}
     [data-theme="strategist"] .hero-brand{color:var(--blue)}
-    [data-theme="strategist"] .hero-name{color:var(--text)}
-    [data-theme="strategist"] .hero-role{color:var(--td)}
+    [data-theme="strategist"] .hero-sys-title{color:var(--text)}
+    [data-theme="strategist"] .hero-sys-sub{color:var(--td)}
     [data-theme="strategist"] .hero-metric{
       background:rgba(240,240,234,.68);border-color:rgba(26,80,138,.14)}
     [data-theme="strategist"] .hm-label{color:var(--td)}
@@ -403,8 +406,9 @@ TEMPLATE = """\
     [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
     [data-theme="investor"] .hero{
       background:
-        linear-gradient(to bottom,rgba(9,9,8,.82) 0%,rgba(9,9,8,.04) 30%,rgba(9,9,8,.04) 58%,rgba(9,9,8,.94) 100%),
-        url('images/investor.png') center top / cover no-repeat,#090908;
+        repeating-linear-gradient(-45deg,transparent 0,transparent 18px,rgba(200,144,24,.04) 18px,rgba(200,144,24,.04) 19px),
+        radial-gradient(ellipse at 60% 55%,rgba(200,144,24,.16) 0%,transparent 55%),
+        linear-gradient(160deg,#080807 0%,#0d0b06 100%);
       border-color:rgba(200,144,24,.22)}
     [data-theme="investor"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(200,144,24,.6),rgba(224,184,56,.5),transparent)}
@@ -461,10 +465,10 @@ TEMPLATE = """\
       </div>
     </div>
   </div>
-  <!-- Bottom: name + metric chips -->
+  <!-- Bottom: system branding + metric chips -->
   <div class="hero-bottom">
-    <div class="hero-name">岩嵜浩之</div>
-    <div class="hero-role">AI カンパニー オーナー &amp; 代表</div>
+    <div class="hero-sys-title">K-COCKPIT</div>
+    <div class="hero-sys-sub">AI カンパニー 統合指令室</div>
     <div class="hero-metrics">
       <div class="hero-metric">
         <div class="hm-label">💰 手元資金</div>
@@ -775,7 +779,7 @@ TEMPLATE = """\
 </div>
 
 <div class="footer fade-in d5">
-  K-Cockpit — 岩嵜 AI カンパニー 統合司令室 — 毎朝 8:00 JST 自動更新
+  K-Cockpit — AI カンパニー 統合指令室 — 毎朝 8:00 JST 自動更新
 </div>
 
 <script>
