@@ -1,0 +1,494 @@
+"""
+cockpit 自動生成スクリプト
+  - data.json を読む
+  - last_updated を今日（JST）に更新
+  - ROI を自動計算
+  - index.html を生成
+"""
+
+import json
+import datetime
+
+# ── 1. データ読み込み ──────────────────────────────────────────
+with open("data.json", encoding="utf-8") as f:
+    data = json.load(f)
+
+# ── 2. 日付を今日（JST）に更新 ────────────────────────────────
+jst = datetime.timezone(datetime.timedelta(hours=9))
+data["last_updated"] = datetime.datetime.now(jst).strftime("%Y-%m-%d")
+
+# ── 3. ROI 自動計算 ───────────────────────────────────────────
+ai_h = int(str(data.get("ai_hours", "144")).replace(",", ""))
+cost = int(str(data.get("cost", "30000")).replace(",", ""))
+data["roi_gross"] = f"{ai_h * 2000:,}"
+data["roi_net"]   = f"{ai_h * 2000 - cost:,}"
+
+# ── 4. data.json を保存（日付更新を反映）──────────────────────
+with open("data.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+# ── 5. HTML テンプレート ──────────────────────────────────────
+TEMPLATE = """\
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>経営コックピット | 岩嵜 AI カンパニー</title>
+  <style>
+    :root {
+      --bg:#0d0d18;--s1:#131320;--s2:#1b1b2e;--s3:#232336;
+      --border:#2a2a44;--bl:#3a3a58;
+      --purple:#8b6fff;--pl:#b09aff;--pdim:rgba(139,111,255,.12);
+      --green:#4ade80;--gdim:rgba(74,222,128,.1);
+      --yellow:#fbbf24;--ydim:rgba(251,191,36,.1);
+      --teal:#2dd4bf;
+      --text:#eaeaf4;--td:#9898b4;--tm:#52526c;
+      --r:16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);
+      font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+      min-height:100vh;padding:32px 40px 64px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
+    @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+    @keyframes bounce{0%,100%{transform:scale(1)}40%{transform:scale(1.28)}}
+    .fade-in{animation:fadeUp .45s ease both}
+    .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.16s}
+    .d4{animation-delay:.22s}.d5{animation-delay:.28s}
+    .emoji-bounce{animation:bounce .3s ease}
+    .card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
+      transition:transform .2s,border-color .2s,box-shadow .2s}
+    .card:hover{transform:translateY(-3px);border-color:var(--bl);box-shadow:0 10px 40px rgba(0,0,0,.45)}
+    .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
+    .greeting{font-size:13px;color:var(--tm);margin-bottom:6px}
+    h1{font-size:28px;font-weight:900;color:#fff;letter-spacing:-.02em}
+    .header-sub{font-size:13px;color:var(--tm);margin-top:5px}
+    .header-right{text-align:right}
+    .last-updated{font-size:13px;color:var(--td)}
+    .edit-link{font-size:11px;color:var(--purple);margin-top:4px;text-decoration:none}
+    .edit-link:hover{text-decoration:underline}
+    .section{margin-bottom:36px}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--tm);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .kpi-card{padding:22px 24px;position:relative;overflow:hidden}
+    .kpi-bg-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);
+      font-size:52px;opacity:.05;pointer-events:none;user-select:none}
+    .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#1e1038 100%);
+      border-color:rgba(139,111,255,.35)}
+    .kpi-card.ai-glow::before{content:'';position:absolute;inset:0;
+      background:linear-gradient(90deg,transparent,rgba(139,111,255,.07),transparent);
+      background-size:200% 100%;animation:shimmer 3s linear infinite}
+    .kpi-label{font-size:12px;color:var(--tm);margin-bottom:10px}
+    .kpi-value{font-size:32px;font-weight:900;color:#fff;line-height:1;position:relative}
+    .kpi-sub{font-size:12px;color:var(--td);margin-top:9px}
+    .up{color:var(--green)}.goal{color:var(--yellow)}
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .project-card{padding:22px;position:relative}
+    .emoji-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;
+      width:52px;height:52px;background:var(--s2);border-radius:14px;
+      font-size:28px;cursor:pointer;user-select:none;margin-bottom:16px;
+      transition:background .2s,transform .15s}
+    .emoji-wrap:hover{background:var(--s3);transform:scale(1.08)}
+    .emoji-wrap:active{transform:scale(.93)}
+    .emoji-hint{position:absolute;bottom:-5px;right:-5px;font-size:9px;
+      background:var(--border);color:var(--td);border-radius:6px;padding:1px 4px}
+    .emoji-picker{display:none;position:absolute;top:80px;left:0;z-index:200;
+      background:var(--s2);border:1px solid var(--bl);border-radius:14px;
+      padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.7);
+      grid-template-columns:repeat(4,1fr);gap:4px}
+    .emoji-picker.open{display:grid}
+    .ep-opt{font-size:24px;width:40px;height:40px;display:flex;align-items:center;
+      justify-content:center;border-radius:10px;cursor:pointer;transition:background .15s}
+    .ep-opt:hover{background:var(--s3)}
+    .pj-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+    .pj-name{font-size:16px;font-weight:700;color:#fff}
+    .pj-sub{font-size:11px;color:var(--tm);margin-top:3px;line-height:1.4}
+    .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+      padding:4px 10px;border-radius:20px;white-space:nowrap}
+    .bdot{width:6px;height:6px;border-radius:50%}
+    .b-active{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+    .b-active .bdot{background:var(--green);animation:pulse 1.8s infinite}
+    .b-build{background:var(--ydim);color:var(--yellow);border:1px solid rgba(251,191,36,.25)}
+    .b-build .bdot{background:var(--yellow)}
+    .b-ready{background:var(--pdim);color:var(--pl);border:1px solid rgba(167,139,250,.25)}
+    .b-ready .bdot{background:var(--pl)}
+    .pj-metric{font-size:28px;font-weight:900;color:#fff;line-height:1;margin-bottom:2px}
+    .pj-metric-label{font-size:11px;color:var(--tm);margin-bottom:10px}
+    .prog-bar{height:5px;background:var(--border);border-radius:5px;margin-bottom:14px;overflow:hidden}
+    .prog-fill{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .fill-green{background:linear-gradient(90deg,#22c55e,#4ade80)}
+    .fill-yellow{background:linear-gradient(90deg,#d97706,#fbbf24)}
+    .fill-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+    .fill-teal{background:linear-gradient(90deg,#0d9488,#2dd4bf)}
+    .pj-next{font-size:12px;color:var(--td);padding:10px 13px;background:var(--s2);
+      border-radius:10px;border-left:3px solid var(--purple);line-height:1.5}
+    .auto-grid{display:grid;grid-template-columns:3fr 2fr;gap:14px}
+    .auto-panel{padding:22px 24px}
+    .auto-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:18px;
+      display:flex;align-items:center;gap:8px}
+    .dot-pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.8s infinite}
+    .dot-idle{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+    .auto-row{display:flex;justify-content:space-between;align-items:center;
+      padding:11px 0;border-bottom:1px solid var(--border)}
+    .auto-row:last-child{border-bottom:none}
+    .auto-name{font-size:13px;color:var(--text)}
+    .auto-tech{font-size:11px;color:var(--tm);margin-top:2px}
+    .auto-save{font-size:12px;font-weight:700;color:var(--green)}
+    .wip-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+      background:var(--ydim);color:var(--yellow);border:1px solid rgba(251,191,36,.2)}
+    .roi-box{margin-top:20px;padding:18px;
+      background:linear-gradient(135deg,var(--s2) 0%,rgba(139,111,255,.08) 100%);
+      border:1px solid rgba(139,111,255,.25);border-radius:14px}
+    .roi-box-label{font-size:11px;color:var(--tm);margin-bottom:6px}
+    .roi-box-val{font-size:22px;font-weight:900;color:#fff}
+    .roi-box-sub{font-size:11px;color:var(--tm);margin-top:4px}
+    .roi-box-net{font-size:20px;font-weight:900;color:var(--green);margin-top:12px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .focus-item{display:flex;align-items:flex-start;gap:16px;padding:18px;
+      margin-bottom:10px;transition:transform .2s,border-color .2s}
+    .focus-item:hover{transform:translateX(4px);border-color:var(--bl)}
+    .focus-num{font-size:28px;font-weight:900;color:var(--purple);line-height:1;min-width:24px}
+    .focus-body{flex:1}
+    .focus-ttl{font-size:14px;font-weight:700;color:#fff}
+    .focus-desc{font-size:12px;color:var(--td);margin-top:4px;line-height:1.55}
+    .focus-dl{font-size:11px;font-weight:700;color:var(--yellow);
+      background:var(--ydim);padding:3px 10px;border-radius:12px;white-space:nowrap}
+    .dec-item{padding:18px 20px;margin-bottom:10px;transition:border-color .2s}
+    .dec-item:hover{border-color:var(--bl)}
+    .dec-date{font-size:11px;color:var(--tm);margin-bottom:5px}
+    .dec-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+    .dec-reason{font-size:12px;color:var(--td);line-height:1.6}
+    .footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);
+      text-align:center;font-size:11px;color:var(--tm)}
+    @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:900px){body{padding:18px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
+    @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr}.project-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="header fade-in">
+  <div>
+    <div class="greeting" id="greeting">おはようございます ☀️</div>
+    <h1>経営コックピット</h1>
+    <div class="header-sub">岩嵜浩之 / AI カンパニー — <span id="month-label"></span></div>
+  </div>
+  <div class="header-right">
+    <div class="last-updated">最終更新: [[LAST_UPDATED]] <span id="auto-badge" style="font-size:10px;background:rgba(139,111,255,.15);color:#b09aff;padding:2px 7px;border-radius:10px;margin-left:6px">自動</span></div>
+    <a class="edit-link" href="data.json" target="_blank">✏️ data.json を編集してデータを更新</a>
+  </div>
+</div>
+
+<div class="section fade-in d1">
+  <div class="sec-title">経営サマリー</div>
+  <div class="kpi-grid">
+    <div class="card kpi-card">
+      <div class="kpi-bg-icon">💰</div>
+      <div class="kpi-label">手元資金</div>
+      <div class="kpi-value">¥[[CASH]]</div>
+      <div class="kpi-sub">直近記録時点</div>
+    </div>
+    <div class="card kpi-card">
+      <div class="kpi-bg-icon">📈</div>
+      <div class="kpi-label">月次 MRR（全事業合計）</div>
+      <div class="kpi-value">¥[[MRR]]</div>
+      <div class="kpi-sub goal">目標 ¥398,000 → 2026年中</div>
+    </div>
+    <div class="card kpi-card">
+      <div class="kpi-bg-icon">🔒</div>
+      <div class="kpi-label">月次固定費</div>
+      <div class="kpi-value">¥[[COST]]</div>
+      <div class="kpi-sub">AIツール合計 / 黒字維持中</div>
+    </div>
+    <div class="card kpi-card ai-glow">
+      <div class="kpi-bg-icon">⚡</div>
+      <div class="kpi-label">AI自動化 — 月間削減工数</div>
+      <div class="kpi-value">[[AI_HOURS]]h</div>
+      <div class="kpi-sub up">≈ ¥[[ROI_GROSS]]/月 分を自動化済み</div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade-in d2">
+  <div class="sec-title">プロジェクト状況（6事業）</div>
+  <div class="project-grid">
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="ec" onclick="togglePicker(this)">
+          <span class="emoji-face">🛍️</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="ec">
+          <div class="ep-opt" onclick="pickEmoji(this,'ec')">🛍️</div><div class="ep-opt" onclick="pickEmoji(this,'ec')">📦</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'ec')">🏪</div><div class="ep-opt" onclick="pickEmoji(this,'ec')">💰</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'ec')">🛒</div><div class="ep-opt" onclick="pickEmoji(this,'ec')">🌸</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'ec')">💎</div><div class="ep-opt" onclick="pickEmoji(this,'ec')">✨</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">EC（Daiwa Felicity）</div><div class="pj-sub">USJ-815 / Amazon → Shopify予定</div></div>
+        <span class="badge b-active"><span class="bdot"></span>稼働中</span>
+      </div>
+      <div class="pj-metric">¥[[EC_MRR]]</div>
+      <div class="pj-metric-label">月次 MRR</div>
+      <div class="prog-bar"><div class="prog-fill fill-teal" style="width:0%"></div></div>
+      <div class="pj-next">次: Shopify立ち上げ（売上8割が1商品依存を分散）</div>
+    </div>
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="toolkit" onclick="togglePicker(this)">
+          <span class="emoji-face">🔧</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="toolkit">
+          <div class="ep-opt" onclick="pickEmoji(this,'toolkit')">🔧</div><div class="ep-opt" onclick="pickEmoji(this,'toolkit')">⚙️</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'toolkit')">🛠️</div><div class="ep-opt" onclick="pickEmoji(this,'toolkit')">📊</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'toolkit')">📈</div><div class="ep-opt" onclick="pickEmoji(this,'toolkit')">⚡</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'toolkit')">🔬</div><div class="ep-opt" onclick="pickEmoji(this,'toolkit')">💡</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">Amazon Toolkit</div><div class="pj-sub">B2B SaaS / Cloudflare Pages</div></div>
+        <span class="badge b-build"><span class="bdot"></span>開発中</span>
+      </div>
+      <div class="pj-metric">¥[[TOOLKIT_MRR]]</div>
+      <div class="pj-metric-label">MRR / 目標 ¥98,000〜¥498,000</div>
+      <div class="prog-bar"><div class="prog-fill fill-yellow" style="width:0%"></div></div>
+      <div class="pj-next">次: SEOツール Level 3（LINE通知）実装</div>
+    </div>
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="consult" onclick="togglePicker(this)">
+          <span class="emoji-face">🤖</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="consult">
+          <div class="ep-opt" onclick="pickEmoji(this,'consult')">🤖</div><div class="ep-opt" onclick="pickEmoji(this,'consult')">💡</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'consult')">🎯</div><div class="ep-opt" onclick="pickEmoji(this,'consult')">🧠</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'consult')">✨</div><div class="ep-opt" onclick="pickEmoji(this,'consult')">🚀</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'consult')">💼</div><div class="ep-opt" onclick="pickEmoji(this,'consult')">🌟</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">AI自動化コンサル</div><div class="pj-sub">6デモ完成 / YuYA差別化戦略</div></div>
+        <span class="badge b-ready"><span class="bdot"></span>営業準備中</span>
+      </div>
+      <div class="pj-metric">[[CONSULT_CLIENTS]]社</div>
+      <div class="pj-metric-label">成約数 / 目標 月額¥300,000+</div>
+      <div class="prog-bar"><div class="prog-fill fill-purple" style="width:0%"></div></div>
+      <div class="pj-next">次: YuYA向け説明資料 〜5/20 ⚠️</div>
+    </div>
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="beargo" onclick="togglePicker(this)">
+          <span class="emoji-face">🐻</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="beargo">
+          <div class="ep-opt" onclick="pickEmoji(this,'beargo')">🐻</div><div class="ep-opt" onclick="pickEmoji(this,'beargo')">📚</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'beargo')">🌟</div><div class="ep-opt" onclick="pickEmoji(this,'beargo')">🎨</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'beargo')">🌈</div><div class="ep-opt" onclick="pickEmoji(this,'beargo')">🧸</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'beargo')">🎪</div><div class="ep-opt" onclick="pickEmoji(this,'beargo')">🌙</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">BearGo</div><div class="pj-sub">AI絵本 / 30〜40代ママ向け</div></div>
+        <span class="badge b-build"><span class="bdot"></span>テスター稼働中</span>
+      </div>
+      <div class="pj-metric">[[BEARGO_BOOKS]]冊</div>
+      <div class="pj-metric-label">生成済み / 目標 246冊</div>
+      <div class="prog-bar"><div class="prog-fill fill-teal" id="bg-prog"></div></div>
+      <div class="pj-next">次: Leoキャラ完成 + Pinterestチャネル展開</div>
+    </div>
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="minecraft" onclick="togglePicker(this)">
+          <span class="emoji-face">🎮</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="minecraft">
+          <div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🎮</div><div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🧱</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'minecraft')">⚔️</div><div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🏆</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🌍</div><div class="ep-opt" onclick="pickEmoji(this,'minecraft')">💎</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🦁</div><div class="ep-opt" onclick="pickEmoji(this,'minecraft')">🎯</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">Minecraft英語ゲーム</div><div class="pj-sub">4歳息子向け / 無料公開</div></div>
+        <span class="badge b-active"><span class="bdot"></span>稼働中</span>
+      </div>
+      <div class="pj-metric">−</div>
+      <div class="pj-metric-label">無料公開中（収益化未定）</div>
+      <div class="prog-bar"><div class="prog-fill fill-green" style="width:100%"></div></div>
+      <div class="pj-next">次: 絵本22枚ブラウザ再生成 → デプロイ</div>
+    </div>
+
+    <div class="card project-card">
+      <div style="position:relative">
+        <div class="emoji-wrap" data-proj="diary" onclick="togglePicker(this)">
+          <span class="emoji-face">📔</span><span class="emoji-hint">変更</span>
+        </div>
+        <div class="emoji-picker" data-for="diary">
+          <div class="ep-opt" onclick="pickEmoji(this,'diary')">📔</div><div class="ep-opt" onclick="pickEmoji(this,'diary')">✏️</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'diary')">💭</div><div class="ep-opt" onclick="pickEmoji(this,'diary')">🌸</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'diary')">🎨</div><div class="ep-opt" onclick="pickEmoji(this,'diary')">📖</div>
+          <div class="ep-opt" onclick="pickEmoji(this,'diary')">💫</div><div class="ep-opt" onclick="pickEmoji(this,'diary')">🌙</div>
+        </div>
+      </div>
+      <div class="pj-row">
+        <div><div class="pj-name">DiaryHolic</div><div class="pj-sub">日記アプリ / diaryholic.pages.dev</div></div>
+        <span class="badge b-active"><span class="bdot"></span>稼働中</span>
+      </div>
+      <div class="pj-metric">−</div>
+      <div class="pj-metric-label">無料公開中（収益化未定）</div>
+      <div class="prog-bar"><div class="prog-fill fill-green" style="width:100%"></div></div>
+      <div class="pj-next">次: 収益化戦略の検討</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section fade-in d3">
+  <div class="sec-title">AI自動化マトリクス</div>
+  <div class="auto-grid">
+    <div class="card auto-panel">
+      <div class="auto-title"><span class="dot-pulse"></span>稼働中の自動化（8個）— 合計 [[AI_HOURS]]h/月 削減</div>
+      <div class="auto-row"><div><div class="auto-name">CS自動下書き生成</div><div class="auto-tech">Google Apps Script + Gmail</div></div><div class="auto-save">-8h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">Instagram自動投稿（Daiwa）</div><div class="auto-tech">Python + GitHub Actions</div></div><div class="auto-save">-12h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">ブログ自動投稿（Daiwa）</div><div class="auto-tech">GitHub Actions / 月・木 9:00</div></div><div class="auto-save">-8h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">SEOキーワード分析</div><div class="auto-tech">Python / Level 1.5稼働中</div></div><div class="auto-save">-16h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">BearGo絵本夜間自動生成</div><div class="auto-tech">Python + gpt-image-1 / nightly.bat</div></div><div class="auto-save">-80h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">Amazon広告最適化ツール</div><div class="auto-tech">HTML/JS / Cloudflare Pages</div></div><div class="auto-save">-12h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">Amazon画像最適化ツール</div><div class="auto-tech">Node.js / localhost:3333</div></div><div class="auto-save">-4h/月</div></div>
+      <div class="auto-row"><div><div class="auto-name">Amazon SEOキーワードツール</div><div class="auto-tech">Python + HTML / ローカル</div></div><div class="auto-save">-4h/月</div></div>
+    </div>
+    <div class="card auto-panel">
+      <div class="auto-title"><span class="dot-idle"></span>実装予定（3個）</div>
+      <div class="auto-row"><div><div class="auto-name">AI自動化コンサル Cockpit</div><div class="auto-tech">会社情報→AI施策提案ダッシュボード</div></div><span class="wip-badge">設計中</span></div>
+      <div class="auto-row"><div><div class="auto-name">Progrit添削自動化</div><div class="auto-tech">Playwright + Whisper + Claude</div></div><span class="wip-badge">設計中</span></div>
+      <div class="auto-row"><div><div class="auto-name">Amazon SEO Level 3</div><div class="auto-tech">LINE通知連携</div></div><span class="wip-badge">次スプリント</span></div>
+      <div class="roi-box">
+        <div class="roi-box-label">もし全部人間でやったら…</div>
+        <div class="roi-box-val">¥[[ROI_GROSS]]/月</div>
+        <div class="roi-box-sub">= [[AI_HOURS]]h × ¥2,000/h</div>
+        <div class="roi-box-net">実質 ¥[[ROI_NET]]/月 の節約 🎉</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="two-col fade-in d4">
+  <div class="section">
+    <div class="sec-title">今月のフォーカス（Top 3）</div>
+    <div class="card focus-item">
+      <div class="focus-num">1</div>
+      <div class="focus-body">
+        <div class="focus-ttl">[[FOCUS_1_TITLE]]</div>
+        <div class="focus-desc">[[FOCUS_1_DESC]]</div>
+      </div>
+      <div class="focus-dl">[[FOCUS_1_DL]]</div>
+    </div>
+    <div class="card focus-item">
+      <div class="focus-num">2</div>
+      <div class="focus-body">
+        <div class="focus-ttl">[[FOCUS_2_TITLE]]</div>
+        <div class="focus-desc">[[FOCUS_2_DESC]]</div>
+      </div>
+      <div class="focus-dl">[[FOCUS_2_DL]]</div>
+    </div>
+    <div class="card focus-item">
+      <div class="focus-num">3</div>
+      <div class="focus-body">
+        <div class="focus-ttl">[[FOCUS_3_TITLE]]</div>
+        <div class="focus-desc">[[FOCUS_3_DESC]]</div>
+      </div>
+      <div class="focus-dl">[[FOCUS_3_DL]]</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-title">直近の意思決定</div>
+    <div class="card dec-item">
+      <div class="dec-date">2026-05-19</div>
+      <div class="dec-title">AI自動化コンサル：YuYAより1.5倍良いものを作る</div>
+      <div class="dec-reason">デモ体験の即時性（ROI試算）で差別化。「体験させてから売る」はYuYAには真似しにくい構造</div>
+    </div>
+    <div class="card dec-item">
+      <div class="dec-date">2026-05-19</div>
+      <div class="dec-title">Amazon Toolkit：APIは使わずCSVベース半自動を維持</div>
+      <div class="dec-reason">仕様変更リスク回避 + 小規模EC企業には CSV 操作が現実的な範囲</div>
+    </div>
+    <div class="card dec-item">
+      <div class="dec-date">2026-04-25</div>
+      <div class="dec-title">販路拡大：楽天・Yahoo! は後回し、Shopify 優先</div>
+      <div class="dec-reason">自社チャンネルを持てる。利益維持のために分散より集中を選択</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer fade-in d5">
+  経営コックピット — 岩嵜 AI カンパニー — 毎朝 8:00 JST 自動更新 / データ変更は data.json を編集してください
+</div>
+
+<script>
+  const now = new Date();
+  const h = now.getHours();
+  const greets = [[5,12,'おはようございます ☀️'],[12,18,'こんにちは 🌤️'],[18,22,'お疲れ様です 🌙'],[0,24,'遅くまでお疲れ様です 🌙']];
+  const g = greets.find(([s,e]) => h>=s && h<e) || greets[3];
+  document.getElementById('greeting').textContent = g[2];
+  document.getElementById('month-label').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月';
+
+  // BearGo進捗バー
+  const bgBooks = parseInt('[[BEARGO_BOOKS]]'.replace(/[^0-9]/g,''),10) || 0;
+  const bgEl = document.getElementById('bg-prog');
+  if(bgEl) bgEl.style.width = Math.min(100, Math.round(bgBooks/246*100))+'%';
+
+  // Emoji picker
+  let openPicker = null;
+  function togglePicker(wrap){
+    const proj=wrap.dataset.proj;
+    const picker=document.querySelector('.emoji-picker[data-for="'+proj+'"]');
+    if(!picker) return;
+    if(picker.classList.contains('open')){picker.classList.remove('open');openPicker=null;return}
+    if(openPicker) openPicker.classList.remove('open');
+    picker.classList.add('open'); openPicker=picker;
+  }
+  function pickEmoji(opt,proj){
+    const emoji=opt.textContent;
+    const wrap=document.querySelector('.emoji-wrap[data-proj="'+proj+'"]');
+    const face=wrap.querySelector('.emoji-face');
+    const picker=document.querySelector('.emoji-picker[data-for="'+proj+'"]');
+    face.textContent=emoji;
+    face.classList.add('emoji-bounce');
+    setTimeout(()=>face.classList.remove('emoji-bounce'),300);
+    picker.classList.remove('open'); openPicker=null;
+    localStorage.setItem('cp_emoji_'+proj,emoji);
+  }
+  ['ec','toolkit','consult','beargo','minecraft','diary'].forEach(p=>{
+    const s=localStorage.getItem('cp_emoji_'+p);
+    if(s){const f=document.querySelector('.emoji-wrap[data-proj="'+p+'"] .emoji-face');if(f)f.textContent=s;}
+  });
+  document.addEventListener('click',e=>{
+    if(openPicker && !e.target.closest('.emoji-wrap') && !e.target.closest('.emoji-picker')){
+      openPicker.classList.remove('open'); openPicker=null;
+    }
+  });
+</script>
+</body>
+</html>
+"""
+
+# ── 6. プレースホルダーを置換 ─────────────────────────────────
+result = TEMPLATE
+for key, value in data.items():
+    if isinstance(value, str):
+        result = result.replace(f"[[{key.upper()}]]", value)
+
+# ── 7. index.html を出力 ──────────────────────────────────────
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(result)
+
+print(f"[OK] index.html generated  last_updated: {data['last_updated']}")
