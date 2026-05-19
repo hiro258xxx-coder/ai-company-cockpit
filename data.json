@@ -17,6 +17,15 @@
   "focus_3_title": "BearGo SNS拡大",
   "focus_3_desc": "Leo完成 + Pinterest展開 + MIフォロワー3名追加",
   "focus_3_dl": "〜6/30",
+  "dec_1_date": "2026-04-25",
+  "dec_1_title": "Amazon事業の拡大方針：楽天・Yahoo!は後回し、Shopify優先",
+  "dec_1_reason": "Shopifyは自社チャンネル（ディストリビューション）を持てる　楽天・Yahoo!はプラットフォーム依存になる",
+  "dec_2_date": "2026-05-19",
+  "dec_2_title": "AI自動化コンサルの競合ポジション：YuYAより1.5倍良いものを作る",
+  "dec_2_reason": "デモ体験の即時性（その場でROI試算）という差別化が可能　「体験させてから売る」はYuYAには真似しにくい",
+  "dec_3_date": "2026-05-19",
+  "dec_3_title": "Amazon Toolkit：APIは使わずCSVベース半自動を維持",
+  "dec_3_reason": "仕様変更リスクで突然動かなくなるリスクを避けたい　小規模EC企業がターゲットなので「CSV程度の操作」が現実的",
   "roi_gross": "288,000",
   "roi_net": "258,000"
 }
