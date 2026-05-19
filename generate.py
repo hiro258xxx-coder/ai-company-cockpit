@@ -110,14 +110,17 @@ TEMPLATE = """\
     .hero{
       position:relative;min-height:460px;margin-bottom:24px;
       border-radius:20px;overflow:hidden;
-      display:flex;flex-direction:column;
+      display:flex;flex-direction:column;justify-content:space-between;
       background:
-        repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(56,189,248,.018) 3px,rgba(56,189,248,.018) 4px),
-        repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(56,189,248,.06) 39px,rgba(56,189,248,.06) 40px),
-        repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(56,189,248,.06) 39px,rgba(56,189,248,.06) 40px),
-        radial-gradient(ellipse at 22% 78%,rgba(56,189,248,.24) 0%,transparent 52%),
-        linear-gradient(160deg,#040810 0%,#060a14 100%);
-      border:1px solid rgba(56,189,248,.3)}
+        linear-gradient(105deg,
+          rgba(4,8,16,.97) 0%,
+          rgba(4,8,16,.93) 32%,
+          rgba(4,8,16,.55) 52%,
+          rgba(4,8,16,.10) 72%,
+          rgba(4,8,16,.04) 100%),
+        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
+        #040810;
+      border:1px solid rgba(56,189,248,.28)}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
@@ -145,11 +148,7 @@ TEMPLATE = """\
     .hero-edit{display:inline-block;font-size:11px;color:var(--purple);margin-top:4px;text-decoration:none}
     .hero-edit:hover{text-decoration:underline}
     /* Hero bottom */
-    .hero-body{flex:1;display:flex;align-items:flex-end;gap:20px;padding:0 28px 24px;position:relative;z-index:6}
-    .hero-left{flex:1;display:flex;flex-direction:column;justify-content:flex-end}
-    .hero-right{width:300px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:flex-end;overflow:visible}
-    .boss-svg{width:300px;height:auto;filter:drop-shadow(0 0 22px var(--blue));opacity:.95;display:block}
-    [data-theme="strategist"] .boss-svg{filter:drop-shadow(0 0 12px rgba(26,80,138,.4));opacity:.85}
+    .hero-bottom{padding:0 28px 26px;position:relative;z-index:6}
     .hero-sys-title{font-size:38px;font-weight:900;color:#fff;letter-spacing:.06em;line-height:1;margin-bottom:4px;text-transform:uppercase}
     .hero-sys-sub{font-size:11px;color:var(--td);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
     /* Metric chips */
@@ -375,14 +374,14 @@ TEMPLATE = """\
     /* ── Per-theme Hero backgrounds ── */
     [data-theme="architect"] .hero{
       background:
-        repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(85,170,255,.014) 3px,rgba(85,170,255,.014) 4px),
-        linear-gradient(rgba(85,170,255,.1) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(85,170,255,.1) 1px,transparent 1px),
-        linear-gradient(rgba(85,170,255,.03) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(85,170,255,.03) 1px,transparent 1px),
-        radial-gradient(ellipse at 50% 50%,rgba(85,170,255,.26) 0%,transparent 58%),
+        linear-gradient(105deg,
+          rgba(4,13,30,.97) 0%,
+          rgba(4,13,30,.93) 32%,
+          rgba(4,13,30,.50) 52%,
+          rgba(4,13,30,.08) 72%,
+          rgba(4,13,30,.03) 100%),
+        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
         #040d1e;
-      background-size:auto,60px 60px,60px 60px,10px 10px,10px 10px,100%,100%;
       border-color:rgba(85,170,255,.28)}
     [data-theme="architect"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.7),rgba(85,119,238,.6),transparent)}
@@ -390,11 +389,15 @@ TEMPLATE = """\
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.05),transparent)}
     [data-theme="strategist"] .hero{
       background:
-        repeating-radial-gradient(circle at 32% 52%,transparent 0,transparent 38px,rgba(26,80,138,.07) 38px,rgba(26,80,138,.07) 39px),
-        repeating-radial-gradient(circle at 68% 48%,transparent 0,transparent 52px,rgba(26,80,138,.05) 52px,rgba(26,80,138,.05) 53px),
-        radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.55) 0%,transparent 68%),
-        linear-gradient(135deg,#f5f4ee 0%,#ede8d8 100%);
-      border-color:rgba(26,80,138,.22)}
+        linear-gradient(105deg,
+          rgba(245,244,238,.99) 0%,
+          rgba(245,244,238,.96) 38%,
+          rgba(245,244,238,.78) 54%,
+          rgba(245,244,238,.45) 72%,
+          rgba(245,244,238,.22) 100%),
+        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
+        #f5f4ee;
+      border-color:rgba(26,80,138,.2)}
     [data-theme="strategist"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(26,80,138,.4),rgba(90,58,138,.3),transparent)}
     [data-theme="strategist"] .hero::after{
@@ -413,11 +416,15 @@ TEMPLATE = """\
     [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
     [data-theme="investor"] .hero{
       background:
-        repeating-linear-gradient(45deg,transparent 0,transparent 18px,rgba(200,144,24,.04) 18px,rgba(200,144,24,.04) 19px),
-        repeating-linear-gradient(-45deg,transparent 0,transparent 18px,rgba(200,144,24,.04) 18px,rgba(200,144,24,.04) 19px),
-        radial-gradient(ellipse at 58% 62%,rgba(200,144,24,.22) 0%,transparent 52%),
-        linear-gradient(160deg,#080807 0%,#0d0b06 100%);
-      border-color:rgba(200,144,24,.26)}
+        linear-gradient(105deg,
+          rgba(8,8,7,.97) 0%,
+          rgba(8,8,7,.93) 32%,
+          rgba(160,100,8,.30) 52%,
+          rgba(200,144,24,.06) 72%,
+          rgba(8,8,7,.02) 100%),
+        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
+        #080807;
+      border-color:rgba(200,144,24,.28)}
     [data-theme="investor"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(200,144,24,.6),rgba(224,184,56,.5),transparent)}
     [data-theme="investor"] .hero::after{
@@ -473,138 +480,31 @@ TEMPLATE = """\
       </div>
     </div>
   </div>
-  <!-- Body: left KPI + right boss character -->
-  <div class="hero-body">
-    <div class="hero-left">
-      <div class="hero-sys-title">K-DASHBOARD</div>
-      <div class="hero-sys-sub">AI カンパニー 戦略指令センター</div>
-      <div class="hero-metrics">
-        <div class="hero-metric">
-          <div class="hm-label">💰 手元資金</div>
-          <div class="hm-value">¥[[CASH]]</div>
-          <div class="hm-note">直近記録時点</div>
-        </div>
-        <div class="hero-metric">
-          <div class="hm-label">📈 月次 MRR</div>
-          <div class="hm-value">¥[[MRR]]</div>
-          <div class="hm-note">目標 ¥398,000</div>
-        </div>
-        <div class="hero-metric">
-          <div class="hm-label">🔒 月次固定費</div>
-          <div class="hm-value">¥[[COST]]</div>
-          <div class="hm-note">AIツール合計</div>
-        </div>
-        <div class="hero-metric hm-ai">
-          <div class="hm-label">⚡ AI削減工数</div>
-          <div class="hm-value">[[AI_HOURS]]h</div>
-          <div class="hm-sub">≈ ¥[[ROI_NET]]/月 節約</div>
-        </div>
+  <!-- Bottom: KPI chips float over the command photo -->
+  <div class="hero-bottom">
+    <div class="hero-sys-title">K-DASHBOARD</div>
+    <div class="hero-sys-sub">AI カンパニー 戦略指令センター</div>
+    <div class="hero-metrics">
+      <div class="hero-metric">
+        <div class="hm-label">💰 手元資金</div>
+        <div class="hm-value">¥[[CASH]]</div>
+        <div class="hm-note">直近記録時点</div>
       </div>
-    </div>
-    <!-- Boss character SVG - backlit silhouette style -->
-    <div class="hero-right">
-      <svg class="boss-svg" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <defs>
-          <radialGradient id="halo" cx="50%" cy="52%" r="48%" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.3"/>
-            <stop offset="55%" stop-color="var(--blue)" stop-opacity="0.07"/>
-            <stop offset="100%" stop-color="var(--blue)" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <!-- Atmospheric halo behind boss -->
-        <ellipse cx="150" cy="220" rx="130" ry="170" fill="url(#halo)"/>
-        <ellipse cx="150" cy="220" rx="75" ry="100" fill="var(--blue)" opacity="0.05"/>
-
-        <!-- ── MAIN DATA SCREEN (large, top) ── -->
-        <rect x="18" y="6" width="264" height="116" rx="8" fill="var(--s2)" stroke="var(--blue)" stroke-width="1.8" opacity="0.95"/>
-        <rect x="18" y="6" width="264" height="116" rx="8" fill="var(--blue)" opacity="0.04"/>
-        <!-- Header -->
-        <rect x="18" y="6" width="264" height="30" rx="8" fill="var(--blue)" opacity="0.09"/>
-        <rect x="32" y="17" width="70" height="7" rx="3.5" fill="var(--blue)" opacity="0.7"/>
-        <circle cx="248" cy="21" r="4.5" fill="var(--green)" opacity="0.9"/>
-        <circle cx="259" cy="21" r="4.5" fill="var(--yellow)" opacity="0.7"/>
-        <circle cx="270" cy="21" r="4.5" fill="var(--blue)" opacity="0.45"/>
-        <!-- Grid lines -->
-        <line x1="32" y1="68" x2="268" y2="68" stroke="var(--blue)" stroke-width="0.5" opacity="0.14"/>
-        <line x1="32" y1="88" x2="268" y2="88" stroke="var(--blue)" stroke-width="0.5" opacity="0.14"/>
-        <line x1="32" y1="108" x2="268" y2="108" stroke="var(--blue)" stroke-width="0.5" opacity="0.14"/>
-        <!-- Line chart — bold, prominent -->
-        <polyline points="32,108 68,86 104,96 140,62 176,76 212,48 252,30"
-          stroke="var(--blue)" stroke-width="3" fill="none" opacity="0.95"
-          stroke-linecap="round" stroke-linejoin="round"/>
-        <polygon points="32,116 32,108 68,86 104,96 140,62 176,76 212,48 252,30 268,22 268,116"
-          fill="var(--blue)" opacity="0.07"/>
-
-        <!-- ── SIDE MINI PANELS ── -->
-        <!-- Left panel: bar chart -->
-        <rect x="0" y="150" width="68" height="70" rx="5" fill="var(--s2)" stroke="var(--blue)" stroke-width="1.2" opacity="0.9"/>
-        <rect x="9" y="159" width="40" height="5" rx="2.5" fill="var(--blue)" opacity="0.6"/>
-        <rect x="9" y="167" width="28" height="3" rx="1.5" fill="var(--blue)" opacity="0.3"/>
-        <rect x="9"  y="192" width="9" height="22" rx="1.5" fill="var(--blue)" opacity="0.4"/>
-        <rect x="21" y="182" width="9" height="32" rx="1.5" fill="var(--blue)" opacity="0.6"/>
-        <rect x="33" y="187" width="9" height="27" rx="1.5" fill="var(--blue)" opacity="0.78"/>
-        <rect x="45" y="175" width="9" height="39" rx="1.5" fill="var(--blue)" opacity="0.95"/>
-        <!-- Right panel: multi-line chart -->
-        <rect x="232" y="150" width="68" height="70" rx="5" fill="var(--s2)" stroke="var(--blue)" stroke-width="1.2" opacity="0.9"/>
-        <rect x="240" y="159" width="40" height="5" rx="2.5" fill="var(--blue)" opacity="0.6"/>
-        <polyline points="240,206 252,196 264,200 276,188 288,192"
-          stroke="var(--blue)" stroke-width="2.2" fill="none" opacity="0.9" stroke-linecap="round"/>
-        <polyline points="240,210 252,202 264,206 276,198 288,202"
-          stroke="var(--green)" stroke-width="1.8" fill="none" opacity="0.65" stroke-linecap="round"/>
-
-        <!-- Connector lines from hands to panels -->
-        <line x1="36" y1="206" x2="22" y2="230" stroke="var(--blue)" stroke-width="1" stroke-dasharray="4,3" opacity="0.35"/>
-        <line x1="264" y1="206" x2="278" y2="230" stroke="var(--blue)" stroke-width="1" stroke-dasharray="4,3" opacity="0.35"/>
-
-        <!-- ── BOSS SILHOUETTE ── -->
-        <!-- Rim glow rings behind head (no face details) -->
-        <ellipse cx="150" cy="208" rx="56" ry="60" fill="var(--blue)" opacity="0.1"/>
-        <ellipse cx="150" cy="208" rx="50" ry="54" fill="var(--blue)" opacity="0.07"/>
-
-        <!-- Head — clean silhouette, no face drawn -->
-        <ellipse cx="150" cy="206" rx="42" ry="46" fill="var(--s1)" stroke="var(--blue)" stroke-width="2.5"/>
-
-        <!-- Neck -->
-        <rect x="139" y="250" width="22" height="18" rx="4" fill="var(--s1)" stroke="var(--blue)" stroke-width="2.2"/>
-
-        <!-- Suit jacket — solid silhouette, proper proportions -->
-        <!-- Left side -->
-        <path d="M72,272 Q96,258 139,266 L134,395 L72,395 Z"
-          fill="var(--s1)" stroke="var(--blue)" stroke-width="2.2"/>
-        <!-- Right side -->
-        <path d="M161,266 Q204,258 228,272 L228,395 L166,395 Z"
-          fill="var(--s1)" stroke="var(--blue)" stroke-width="2.2"/>
-        <!-- Shirt / lapels -->
-        <path d="M139,266 L150,300 L161,266 L150,264 Z"
-          fill="var(--s2)" stroke="var(--blue)" stroke-width="1.8"/>
-        <!-- Tie — bright accent -->
-        <path d="M144,300 L156,300 L154,372 L150,380 L146,372 Z"
-          fill="var(--bdim)" stroke="var(--blue)" stroke-width="1.4" opacity="0.95"/>
-
-        <!-- LEFT ARM — commanding sweep outward -->
-        <path d="M76,288 Q40,264 22,208" stroke="var(--blue)" stroke-width="4.5"
-          fill="none" stroke-linecap="round"/>
-        <!-- Hand / pointer -->
-        <circle cx="20" cy="204" r="7" fill="var(--blue)" opacity="0.95"/>
-        <line x1="20" y1="204" x2="6" y2="186" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"/>
-
-        <!-- RIGHT ARM — commanding sweep outward -->
-        <path d="M224,288 Q260,264 278,208" stroke="var(--blue)" stroke-width="4.5"
-          fill="none" stroke-linecap="round"/>
-        <!-- Hand / pointer -->
-        <circle cx="280" cy="204" r="7" fill="var(--blue)" opacity="0.95"/>
-        <line x1="280" y1="204" x2="294" y2="186" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"/>
-
-        <!-- Floor glow -->
-        <ellipse cx="150" cy="395" rx="65" ry="10" fill="var(--blue)" opacity="0.14"/>
-
-        <!-- Floating particles -->
-        <circle cx="10" cy="136" r="3" fill="var(--blue)" opacity="0.5"/>
-        <circle cx="4"  cy="156" r="2" fill="var(--blue)" opacity="0.3"/>
-        <circle cx="284" cy="136" r="3" fill="var(--blue)" opacity="0.5"/>
-        <circle cx="292" cy="156" r="2" fill="var(--blue)" opacity="0.3"/>
-        <circle cx="150" cy="4"   r="3" fill="var(--blue)" opacity="0.35"/>
-      </svg>
+      <div class="hero-metric">
+        <div class="hm-label">📈 月次 MRR</div>
+        <div class="hm-value">¥[[MRR]]</div>
+        <div class="hm-note">目標 ¥398,000</div>
+      </div>
+      <div class="hero-metric">
+        <div class="hm-label">🔒 月次固定費</div>
+        <div class="hm-value">¥[[COST]]</div>
+        <div class="hm-note">AIツール合計</div>
+      </div>
+      <div class="hero-metric hm-ai">
+        <div class="hm-label">⚡ AI削減工数</div>
+        <div class="hm-value">[[AI_HOURS]]h</div>
+        <div class="hm-sub">≈ ¥[[ROI_NET]]/月 節約</div>
+      </div>
     </div>
   </div>
 </div>
