@@ -25,9 +25,9 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
     @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
     @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-    @keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(800%)}}
+    @keyframes scan{0%{left:-35%}100%{left:110%}}
     @keyframes bounce{0%,100%{transform:scale(1)}40%{transform:scale(1.28)}}
-    @keyframes glow{0%,100%{opacity:.6}50%{opacity:1}}
+    @keyframes glow{0%,100%{opacity:.5}50%{opacity:1}}
     .fade-in{animation:fadeUp .45s ease both}
     .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.16s}
     .d4{animation-delay:.22s}.d5{animation-delay:.28s}
@@ -42,59 +42,75 @@
     .personal-card{border-color:rgba(56,189,248,.18)}
     .personal-card:hover{border-color:rgba(56,189,248,.4);box-shadow:0 8px 32px rgba(56,189,248,.1)}
 
-    /* ── 司令塔 Header ── */
-    .cmd-header{
-      display:flex;align-items:center;gap:20px;
-      padding:24px 32px;margin-bottom:22px;min-height:180px;
+    /* ── Hero ── */
+    .hero{
+      position:relative;min-height:440px;margin-bottom:24px;
+      border-radius:20px;overflow:hidden;
+      display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(90deg,rgba(8,8,15,.92) 42%,rgba(8,8,15,.55) 65%,rgba(8,8,15,.1) 85%,transparent 100%),
-        url('images/commander.png') right top / cover no-repeat,
-        linear-gradient(135deg,#0b0b18 0%,#0f0f1e 100%);
-      border:1px solid rgba(56,189,248,.25);border-radius:18px;
-      position:relative;overflow:hidden}
-    .cmd-header::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:2;
-      background:linear-gradient(90deg,transparent,rgba(56,189,248,.6),rgba(139,111,255,.5),transparent)}
-    .cmd-header::after{
-      content:'';position:absolute;top:0;left:-100%;width:40%;height:100%;z-index:2;
+        linear-gradient(to bottom,
+          rgba(8,8,15,.82) 0%,
+          rgba(8,8,15,.05) 30%,
+          rgba(8,8,15,.05) 58%,
+          rgba(8,8,15,.94) 100%),
+        url('images/commander.png') center top / cover no-repeat,
+        #08080f;
+      border:1px solid rgba(56,189,248,.22)}
+    .hero::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
+    .hero::after{
+      content:'';position:absolute;top:0;width:32%;height:100%;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.04),transparent);
-      animation:scan 8s linear infinite}
-    .cmd-header > *{position:relative;z-index:1}
-    /* Avatar */
-    .cmd-avatar{
-      width:64px;height:64px;border-radius:50%;flex-shrink:0;
-      background:radial-gradient(circle at 50% 35%,#14142a 0%,#04040e 80%);
-      border:1.5px solid rgba(56,189,248,.3);
-      box-shadow:0 0 22px rgba(56,189,248,.15),0 0 60px rgba(56,189,248,.05),inset 0 0 16px rgba(0,0,0,.8);
-      position:relative;overflow:hidden}
-    .cmd-avatar::before{
-      content:'';position:absolute;
-      width:22px;height:22px;border-radius:50%;
-      background:rgba(6,6,18,.95);
-      top:10px;left:50%;transform:translateX(-50%)}
-    .cmd-avatar::after{
-      content:'';position:absolute;
-      width:52px;height:32px;border-radius:50% 50% 0 0 / 60% 60% 0 0;
-      background:rgba(5,5,16,.9);
-      bottom:-2px;left:50%;transform:translateX(-50%)}
-    /* Title block */
-    .cmd-title{flex:1}
-    .cmd-label{font-size:10px;font-weight:700;letter-spacing:.15em;
-      text-transform:uppercase;color:var(--blue);margin-bottom:5px;
-      display:flex;align-items:center;gap:8px}
-    .cmd-label::before{content:'◈';font-size:8px;animation:glow 2s ease infinite}
-    .cmd-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.1}
-    .cmd-sub{font-size:12px;color:var(--td);margin-top:5px}
-    .cmd-status{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--td)}
-    .status-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-    /* Meta */
-    .cmd-meta{text-align:right;flex-shrink:0}
-    .cmd-updated{font-size:12px;color:var(--td)}
-    .cmd-auto{display:inline-flex;align-items:center;gap:4px;font-size:10px;
+      animation:scan 10s linear infinite;pointer-events:none}
+    /* Hero top bar */
+    .hero-top{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      padding:22px 28px;position:relative;z-index:6}
+    .hero-brand{
+      font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+      color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .hero-brand::before{content:'◈';font-size:9px;animation:glow 2s ease infinite}
+    .hero-top-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--td)}
+    .status-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);
+      animation:pulse 2s infinite;display:inline-block;flex-shrink:0}
+    /* Hero meta (top-right) */
+    .hero-meta-wrap{text-align:right;flex-shrink:0}
+    .hero-updated{font-size:11px;color:var(--td)}
+    .hero-auto{display:inline-flex;align-items:center;gap:4px;font-size:10px;
       background:rgba(139,111,255,.12);color:var(--pl);
-      padding:2px 8px;border-radius:8px;margin-top:4px}
-    .cmd-edit{display:block;font-size:11px;color:var(--purple);margin-top:5px;text-decoration:none}
-    .cmd-edit:hover{text-decoration:underline}
+      padding:2px 8px;border-radius:8px;margin-top:3px}
+    .hero-edit{display:inline-block;font-size:11px;color:var(--purple);margin-top:4px;text-decoration:none}
+    .hero-edit:hover{text-decoration:underline}
+    /* Hero bottom */
+    .hero-bottom{padding:0 28px 24px;position:relative;z-index:6}
+    .hero-name{font-size:32px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1;margin-bottom:3px}
+    .hero-role{font-size:12px;color:var(--td);margin-bottom:18px}
+    /* Metric chips */
+    .hero-metrics{display:flex;gap:10px;flex-wrap:wrap}
+    .hero-metric{
+      flex:1;min-width:135px;
+      padding:14px 18px;border-radius:14px;
+      background:rgba(8,8,15,.58);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.1)}
+    .hm-label{font-size:10px;color:var(--td);font-weight:600;
+      letter-spacing:.06em;margin-bottom:7px}
+    .hm-value{font-size:26px;font-weight:900;color:#fff;line-height:1}
+    .hm-sub{font-size:10px;color:var(--green);margin-top:5px;font-weight:600}
+    .hm-note{font-size:10px;color:var(--tm);margin-top:4px}
+    .hm-ai .hm-value{color:var(--green)}
+
+    /* ── Theme switcher ── */
+    .th-wrap{margin-top:8px}
+    .th-label-text{font-size:9px;color:var(--tm);text-align:right;margin-bottom:3px}
+    .theme-switcher{display:flex;gap:5px;justify-content:flex-end}
+    .th-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);
+      background:var(--s2);color:var(--td);font-size:14px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .2s;opacity:.5;line-height:1}
+    .th-btn:hover{opacity:1;transform:scale(1.12);border-color:var(--bl)}
+    .th-btn.active{opacity:1;border-color:var(--blue);background:var(--bdim)}
 
     /* ── Section ── */
     .section{margin-bottom:28px}
@@ -105,22 +121,6 @@
       letter-spacing:.05em;text-transform:none}
     .badge-pro{background:rgba(139,111,255,.12);color:var(--pl);border:1px solid rgba(139,111,255,.2)}
     .badge-personal{background:rgba(56,189,248,.1);color:#7dd3fc;border:1px solid rgba(56,189,248,.18)}
-
-    /* ── KPI ── */
-    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .kpi-card{padding:20px 22px;position:relative;overflow:hidden}
-    .kpi-bg-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);
-      font-size:48px;opacity:.04;pointer-events:none;user-select:none}
-    .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#140e28 100%);
-      border-color:rgba(139,111,255,.3)}
-    .kpi-card.ai-glow::before{content:'';position:absolute;inset:0;
-      background:linear-gradient(90deg,transparent,rgba(139,111,255,.06),transparent);
-      background-size:200% 100%;animation:shimmer 3s linear infinite}
-    .kpi-label{font-size:11px;color:var(--td);margin-bottom:8px;font-weight:500}
-    .kpi-desc{font-size:9px;color:var(--tm);margin-bottom:8px}
-    .kpi-value{font-size:30px;font-weight:900;color:#fff;line-height:1;position:relative}
-    .kpi-sub{font-size:11px;color:var(--td);margin-top:8px}
-    .up{color:var(--green)}.goal{color:var(--yellow)}
 
     /* ── Financial Targets ── */
     .fin-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
@@ -177,7 +177,6 @@
     .fill-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
     .fill-teal{background:linear-gradient(90deg,#0d9488,#2dd4bf)}
     .fill-blue{background:linear-gradient(90deg,#0ea5e9,#38bdf8)}
-    /* Next steps */
     .ni{display:flex;align-items:baseline;gap:7px;padding:5px 0;
       border-bottom:1px solid rgba(37,37,56,.8)}
     .ni:last-child{border-bottom:none}
@@ -271,9 +270,9 @@
       text-align:center;font-size:10px;color:var(--tm)}
 
     /* ── Responsive ── */
-    @media(max-width:1200px){.kpi-grid,.fin-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:900px){body{padding:16px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
-    @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr}.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:1200px){.fin-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:900px){body{padding:16px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.hero-metrics{gap:8px}}
+    @media(max-width:600px){.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}.hero{min-height:360px}.hm-value{font-size:20px}}
 
     /* ── Theme Variables ── */
     [data-theme="architect"]{
@@ -306,94 +305,123 @@
       --teal:#38a868;
       --text:#e8dcc8;--td:#a09070;--tm:#686050;
     }
-    /* Architect overrides */
-    [data-theme="architect"] .cmd-header{
+
+    /* ── Per-theme Hero backgrounds ── */
+    [data-theme="architect"] .hero{
       background:
-        linear-gradient(90deg,rgba(5,10,24,.92) 42%,rgba(5,10,24,.55) 65%,rgba(5,10,24,.1) 85%,transparent 100%),
-        url('images/architect.png') right top / cover no-repeat,
-        #050a18;
-      border-color:rgba(85,170,255,.25)}
-    [data-theme="architect"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(85,170,255,.6),rgba(85,119,238,.5),transparent)}
-    /* Strategist (light theme) overrides */
-    [data-theme="strategist"] .cmd-header{
+        linear-gradient(to bottom,rgba(5,10,24,.82) 0%,rgba(5,10,24,.04) 30%,rgba(5,10,24,.04) 58%,rgba(5,10,24,.94) 100%),
+        url('images/architect.png') center top / cover no-repeat,#050a18;
+      border-color:rgba(85,170,255,.22)}
+    [data-theme="architect"] .hero::before{
+      background:linear-gradient(90deg,transparent,rgba(85,170,255,.7),rgba(85,119,238,.6),transparent)}
+    [data-theme="architect"] .hero::after{
+      background:linear-gradient(90deg,transparent,rgba(85,170,255,.05),transparent)}
+    [data-theme="strategist"] .hero{
       background:
-        linear-gradient(90deg,rgba(240,240,234,.97) 42%,rgba(240,240,234,.7) 62%,rgba(240,240,234,.2) 80%,transparent 100%),
-        url('images/strategist.png') right top / cover no-repeat,
-        #f0f0ea;
+        linear-gradient(to bottom,rgba(240,240,234,.92) 0%,rgba(240,240,234,.1) 30%,rgba(240,240,234,.1) 58%,rgba(240,240,234,.96) 100%),
+        url('images/strategist.png') center top / cover no-repeat,#f0f0ea;
       border-color:rgba(26,80,138,.2)}
-    [data-theme="strategist"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(26,80,138,.35),rgba(90,58,138,.25),transparent)}
-    [data-theme="strategist"] .cmd-header::after{background:linear-gradient(90deg,transparent,rgba(26,80,138,.04),transparent)}
-    [data-theme="strategist"] .cmd-avatar{background:radial-gradient(circle at 50% 35%,#e0e0f0 0%,#c0c0d4 80%);border-color:rgba(26,80,138,.25);box-shadow:0 0 22px rgba(26,80,138,.08),inset 0 0 16px rgba(255,255,255,.3)}
-    [data-theme="strategist"] .cmd-avatar::before{background:rgba(235,235,248,.95)}
-    [data-theme="strategist"] .cmd-avatar::after{background:rgba(230,230,244,.95)}
+    [data-theme="strategist"] .hero::before{
+      background:linear-gradient(90deg,transparent,rgba(26,80,138,.4),rgba(90,58,138,.3),transparent)}
+    [data-theme="strategist"] .hero::after{
+      background:linear-gradient(90deg,transparent,rgba(26,80,138,.05),transparent)}
+    [data-theme="strategist"] .hero-brand{color:var(--blue)}
+    [data-theme="strategist"] .hero-name{color:var(--text)}
+    [data-theme="strategist"] .hero-role{color:var(--td)}
+    [data-theme="strategist"] .hero-metric{
+      background:rgba(240,240,234,.68);border-color:rgba(26,80,138,.14)}
+    [data-theme="strategist"] .hm-label{color:var(--td)}
+    [data-theme="strategist"] .hm-value{color:var(--text)}
+    [data-theme="strategist"] .hm-ai .hm-value{color:var(--green)}
+    [data-theme="strategist"] .hm-note{color:var(--tm)}
     [data-theme="strategist"] .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1)}
-    [data-theme="strategist"] .kpi-card.ai-glow{background:linear-gradient(135deg,#fff 0%,#f0eef8 100%);border-color:rgba(90,58,138,.2)}
-    [data-theme="strategist"] .kpi-card.ai-glow::before{background:linear-gradient(90deg,transparent,rgba(90,58,138,.06),transparent)}
     [data-theme="strategist"] .roi-box{background:linear-gradient(135deg,#f5f5f0 0%,rgba(90,58,138,.06) 100%);border-color:rgba(90,58,138,.18)}
     [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
-    /* Investor overrides */
-    [data-theme="investor"] .cmd-header{
+    [data-theme="investor"] .hero{
       background:
-        linear-gradient(90deg,rgba(9,9,8,.92) 42%,rgba(9,9,8,.55) 65%,rgba(9,9,8,.1) 85%,transparent 100%),
-        url('images/investor.png') right top / cover no-repeat,
-        #090908;
+        linear-gradient(to bottom,rgba(9,9,8,.82) 0%,rgba(9,9,8,.04) 30%,rgba(9,9,8,.04) 58%,rgba(9,9,8,.94) 100%),
+        url('images/investor.png') center top / cover no-repeat,#090908;
       border-color:rgba(200,144,24,.22)}
-    [data-theme="investor"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(200,144,24,.55),rgba(224,184,56,.45),transparent)}
-    [data-theme="investor"] .cmd-avatar{border-color:rgba(200,144,24,.3);box-shadow:0 0 22px rgba(200,144,24,.12),inset 0 0 16px rgba(0,0,0,.8)}
-    [data-theme="investor"] .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#18140a 100%);border-color:rgba(200,144,24,.25)}
+    [data-theme="investor"] .hero::before{
+      background:linear-gradient(90deg,transparent,rgba(200,144,24,.6),rgba(224,184,56,.5),transparent)}
+    [data-theme="investor"] .hero::after{
+      background:linear-gradient(90deg,transparent,rgba(200,144,24,.05),transparent)}
+    [data-theme="investor"] .hero-metric{border-color:rgba(200,144,24,.14)}
+    [data-theme="investor"] .hm-value{color:var(--yellow)}
+    [data-theme="investor"] .hm-ai .hm-value{color:var(--green)}
     [data-theme="investor"] .roi-box{border-color:rgba(200,144,24,.18)}
-    /* Per-theme number & accent styling */
-    [data-theme="architect"] .kpi-value{text-shadow:0 0 24px rgba(85,170,255,.45);font-size:32px}
-    [data-theme="architect"] .fin-val{text-shadow:0 0 16px rgba(85,170,255,.35)}
-    [data-theme="architect"] .pj-metric{text-shadow:0 0 16px rgba(85,170,255,.35)}
-    [data-theme="architect"] .focus-num{text-shadow:0 0 20px rgba(85,119,238,.5)}
-    [data-theme="investor"] .kpi-value{color:var(--yellow);text-shadow:0 0 16px rgba(200,144,24,.3)}
+
+    /* ── Per-theme number/accent styling ── */
+    [data-theme="architect"] .hm-value{text-shadow:0 0 22px rgba(85,170,255,.4)}
+    [data-theme="architect"] .hm-ai .hm-value{text-shadow:0 0 18px rgba(58,200,138,.4)}
+    [data-theme="architect"] .fin-val{text-shadow:0 0 14px rgba(85,170,255,.3)}
+    [data-theme="architect"] .pj-metric{text-shadow:0 0 14px rgba(85,170,255,.3)}
+    [data-theme="architect"] .focus-num{text-shadow:0 0 18px rgba(85,119,238,.5)}
     [data-theme="investor"] .fin-val{color:var(--yellow)}
     [data-theme="investor"] .pj-metric{color:var(--yellow)}
     [data-theme="investor"] .focus-num{color:var(--yellow)}
-    [data-theme="investor"] .up{color:var(--green)}
-    [data-theme="strategist"] .kpi-value{color:var(--text);font-size:28px}
     [data-theme="strategist"] .fin-val{color:var(--text)}
     [data-theme="strategist"] .pj-metric{color:var(--text)}
-    [data-theme="strategist"] .cmd-label{color:var(--blue)}
-    [data-theme="strategist"] .cmd-name{color:var(--text)}
-    [data-theme="strategist"] .cmd-status{color:var(--td)}
-    [data-theme="strategist"] .cmd-updated{color:var(--td)}
-    [data-theme="strategist"] .status-pulse{background:var(--green)}
+    [data-theme="strategist"] .pj-name{color:var(--text)}
+    [data-theme="strategist"] .focus-ttl{color:var(--text)}
     [data-theme="strategist"] .focus-num{color:var(--purple)}
-    /* Style switcher widget */
-    .theme-switcher{display:flex;gap:5px;justify-content:flex-end;margin-top:8px}
-    .th-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--s2);
-      color:var(--td);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-      transition:all .2s;opacity:.5;line-height:1}
-    .th-btn:hover{opacity:1;transform:scale(1.12);border-color:var(--bl)}
-    .th-btn.active{opacity:1;border-color:var(--blue);background:var(--bdim)}
+    [data-theme="strategist"] .dec-title{color:var(--text)}
   </style>
 </head>
 <body>
 
-<!-- ══ 司令塔 ヘッダー ══════════════════════════════════════ -->
-<div class="cmd-header fade-in">
-  <div class="cmd-avatar"></div>
-  <div class="cmd-title">
-    <div class="cmd-label">AI カンパニー 統合司令室</div>
-    <div class="cmd-name">岩嵜浩之</div>
-    <div class="cmd-status">
-      <span class="status-pulse"></span>
-      全システム稼働中 — <span id="month-label" style="margin-left:4px"></span>
+<!-- ══ Hero ═════════════════════════════════════════════════ -->
+<div class="hero fade-in">
+  <!-- Top bar -->
+  <div class="hero-top">
+    <div>
+      <div class="hero-brand">AI カンパニー 統合司令室</div>
+      <div class="hero-top-status">
+        <span class="status-pulse"></span>
+        <span style="margin-left:2px">全システム稼働中 —</span>
+        <span id="month-label" style="margin-left:4px"></span>
+      </div>
+    </div>
+    <div class="hero-meta-wrap">
+      <div class="hero-updated">最終更新: 2026-05-20</div>
+      <div class="hero-auto">⟳ 毎朝 8:00 JST 自動更新</div>
+      <a class="hero-edit" href="data.json" target="_blank">✏️ data.json を編集</a>
+      <div class="th-wrap">
+        <div class="th-label-text">スタイル切替</div>
+        <div class="theme-switcher">
+          <button class="th-btn" data-theme="commander" title="司令塔型">⚡</button>
+          <button class="th-btn" data-theme="architect" title="建築家型">🏗️</button>
+          <button class="th-btn" data-theme="strategist" title="戦略家型">♟️</button>
+          <button class="th-btn" data-theme="investor" title="投資家型">💹</button>
+        </div>
+      </div>
     </div>
   </div>
-  <div style="flex:1"></div>
-  <div class="cmd-meta">
-    <div class="cmd-updated">最終更新: 2026-05-20</div>
-    <div class="cmd-auto">⟳ 毎朝 8:00 JST 自動更新</div>
-    <a class="cmd-edit" href="data.json" target="_blank">✏️ data.json を編集</a>
-    <div style="font-size:9px;color:var(--tm);text-align:right;margin-top:8px">スタイル切替</div>
-    <div class="theme-switcher">
-      <button class="th-btn" data-theme="commander" title="司令塔型">⚡</button>
-      <button class="th-btn" data-theme="architect" title="建築家型">🏗️</button>
-      <button class="th-btn" data-theme="strategist" title="戦略家型">♟️</button>
-      <button class="th-btn" data-theme="investor" title="投資家型">💹</button>
+  <!-- Bottom: name + metric chips -->
+  <div class="hero-bottom">
+    <div class="hero-name">岩嵜浩之</div>
+    <div class="hero-role">AI カンパニー オーナー &amp; 代表</div>
+    <div class="hero-metrics">
+      <div class="hero-metric">
+        <div class="hm-label">💰 手元資金</div>
+        <div class="hm-value">¥3,000,000</div>
+        <div class="hm-note">直近記録時点</div>
+      </div>
+      <div class="hero-metric">
+        <div class="hm-label">📈 月次 MRR</div>
+        <div class="hm-value">¥0</div>
+        <div class="hm-note">目標 ¥398,000</div>
+      </div>
+      <div class="hero-metric">
+        <div class="hm-label">🔒 月次固定費</div>
+        <div class="hm-value">¥30,000</div>
+        <div class="hm-note">AIツール合計</div>
+      </div>
+      <div class="hero-metric hm-ai">
+        <div class="hm-label">⚡ AI削減工数</div>
+        <div class="hm-value">144h</div>
+        <div class="hm-sub">≈ ¥258,000/月 節約</div>
+      </div>
     </div>
   </div>
 </div>
@@ -402,38 +430,6 @@
 <div class="cal-strip fade-in">
   <div class="cal-strip-label">今週のスケジュール</div>
   <div class="cal-scroll"><div class="cal-day today"><div class="cal-date">5/20(火)<span class="cal-today-badge">今日</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">USD201 PSI資料確認</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">事業計画書PPTX Phase 0スライド修正</span></div></div><div class="cal-day"><div class="cal-date">5/22(木)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">note.com BearGo 残り12記事 投稿</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">Shopify SNS戦略検討（ブログ）</span></div></div><div class="cal-day"><div class="cal-date">5/23(金)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">Progrit 添削自動化 キックオフ（音声URL確認→実装）</span></div></div><div class="cal-day"><div class="cal-date">5/25(日)</div><div class="cal-ev"><span class="cal-time">20:00</span><span class="cal-ttl">AIXの打ち合わせ</span></div></div></div>
-</div>
-
-<!-- ══ 経営サマリー ══════════════════════════════════════════ -->
-<div class="section fade-in d1">
-  <div class="sec-title">経営サマリー</div>
-  <div class="kpi-grid">
-    <div class="card kpi-card">
-      <div class="kpi-bg-icon">💰</div>
-      <div class="kpi-label">手元資金</div>
-      <div class="kpi-value">¥3,000,000</div>
-      <div class="kpi-sub">直近記録時点</div>
-    </div>
-    <div class="card kpi-card">
-      <div class="kpi-bg-icon">📈</div>
-      <div class="kpi-label">月次 MRR（全事業合計）</div>
-      <div class="kpi-desc">Monthly Recurring Revenue — 毎月安定して入ってくる売上</div>
-      <div class="kpi-value">¥0</div>
-      <div class="kpi-sub goal">目標 ¥398,000 → 2026年中</div>
-    </div>
-    <div class="card kpi-card">
-      <div class="kpi-bg-icon">🔒</div>
-      <div class="kpi-label">月次固定費</div>
-      <div class="kpi-value">¥30,000</div>
-      <div class="kpi-sub">AIツール合計 / 黒字維持中</div>
-    </div>
-    <div class="card kpi-card ai-glow">
-      <div class="kpi-bg-icon">⚡</div>
-      <div class="kpi-label">AI自動化 — 月間削減工数</div>
-      <div class="kpi-value">144h</div>
-      <div class="kpi-sub up">≈ ¥288,000/月 分を自動化済み</div>
-    </div>
-  </div>
 </div>
 
 <!-- ══ 収益目標ダッシュボード ═══════════════════════════════ -->
@@ -736,11 +732,8 @@
     });
   })();
 
-  // グリーティング + 月ラベル
+  // 月ラベル
   const now = new Date();
-  const h = now.getHours();
-  const greets = [[5,12,'おはようございます'],[12,18,'こんにちは'],[18,22,'お疲れ様です'],[0,24,'遅くまでお疲れ様です']];
-  const g = greets.find(([s,e]) => h>=s && h<e) || greets[3];
   document.getElementById('month-label').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月';
 
   // BearGo進捗バー
