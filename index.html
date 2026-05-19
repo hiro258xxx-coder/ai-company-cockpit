@@ -136,26 +136,33 @@
     @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:900px){body{padding:18px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
     @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr}.project-grid{grid-template-columns:1fr}}
-    /* Calendar */
-    .cal-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
-    .cal-scroll::-webkit-scrollbar{height:4px}
-    .cal-scroll::-webkit-scrollbar-track{background:var(--s2)}
+    /* Calendar strip */
+    .cal-strip{margin-bottom:32px}
+    .cal-strip-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--tm);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+    .cal-strip-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .cal-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+    .cal-scroll::-webkit-scrollbar{height:3px}
+    .cal-scroll::-webkit-scrollbar-track{background:transparent}
     .cal-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-    .cal-day{flex:0 0 230px;scroll-snap-align:start;padding:16px;background:var(--s1);
-      border:1px solid var(--border);border-radius:14px;transition:border-color .2s,box-shadow .2s}
-    .cal-day.today{border-color:rgba(139,111,255,.6);
+    .cal-day{flex:0 0 180px;scroll-snap-align:start;padding:12px 14px;background:var(--s1);
+      border:1px solid var(--border);border-radius:12px;transition:border-color .2s;
+      max-height:200px;overflow-y:auto;display:flex;flex-direction:column}
+    .cal-day::-webkit-scrollbar{width:2px}
+    .cal-day::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px}
+    .cal-day.today{flex:0 0 220px;border-color:rgba(139,111,255,.55);
       background:linear-gradient(135deg,var(--s1),rgba(139,111,255,.07))}
     .cal-day:hover{border-color:var(--bl)}
-    .cal-date{font-size:13px;font-weight:700;color:var(--pl);margin-bottom:10px;
-      display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    .cal-today-badge{font-size:9px;font-weight:700;background:var(--purple);color:#fff;
-      padding:2px 7px;border-radius:8px}
-    .cal-ev{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(42,42,68,.7)}
+    .cal-date{font-size:12px;font-weight:700;color:var(--pl);margin-bottom:8px;
+      display:flex;align-items:center;gap:5px;flex-shrink:0}
+    .cal-today-badge{font-size:8px;font-weight:700;background:var(--purple);color:#fff;
+      padding:1px 6px;border-radius:6px}
+    .cal-ev{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid rgba(42,42,68,.6)}
     .cal-ev:last-child{border-bottom:none}
-    .cal-time{font-size:10px;color:var(--tm);min-width:38px;flex-shrink:0;padding-top:2px}
-    .cal-ttl{font-size:12px;color:var(--text);line-height:1.4}
-    .cal-no-ev{font-size:12px;color:var(--tm)}
-    .cal-empty{font-size:13px;color:var(--tm);padding:20px 0}
+    .cal-time{font-size:10px;color:var(--tm);min-width:36px;flex-shrink:0;padding-top:1px}
+    .cal-ttl{font-size:11px;color:var(--text);line-height:1.4}
+    .cal-no-ev{font-size:11px;color:var(--tm)}
+    .cal-empty{font-size:13px;color:var(--tm);padding:16px 0}
     /* History */
     .hist-list{display:grid;gap:10px}
     .hist-entry{padding:14px 18px;background:var(--s1);border:1px solid var(--border);
@@ -183,6 +190,11 @@
     <div class="last-updated">最終更新: 2026-05-19 <span id="auto-badge" style="font-size:10px;background:rgba(139,111,255,.15);color:#b09aff;padding:2px 7px;border-radius:10px;margin-left:6px">自動</span></div>
     <a class="edit-link" href="data.json" target="_blank">✏️ data.json を編集してデータを更新</a>
   </div>
+</div>
+
+<div class="cal-strip fade-in">
+  <div class="cal-strip-label">今週のスケジュール</div>
+  <div class="cal-scroll"><div class="cal-day today"><div class="cal-date">5/19(月)<span class="cal-today-badge">今日</span></div><div class="cal-ev"><span class="cal-time">終日</span><span class="cal-ttl">プライムで参加</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">PROGRITの添削</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">サンドステッパー 派生商品検討</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">LINE公式アカウント運用方針決定（BearGo / Daiwa）</span></div><div class="cal-ev"><span class="cal-time">11:00</span><span class="cal-ttl">【USJACLEAN】業務ブロック</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">🔄 広告の調整</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">SEOツール LINE通知 Level 3 実装</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">【Shopify SNS戦略】③ 投稿スケジュール作成・素材準備</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">🔄 広告ツール追加改善（バルクExcel比較セクション整理）</span></div><div class="cal-ev"><span class="cal-time">15:00</span><span class="cal-ttl">【Shopify SNS戦略】④ 初回投稿実施 ＋ 週次振り返り</span></div></div><div class="cal-day"><div class="cal-date">5/20(火)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">USD201 PSI資料確認</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">【無料説明会】AIエージェント・ストラテジスト資格（オンライン）</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">事業計画書PPTX Phase 0スライド修正</span></div></div><div class="cal-day"><div class="cal-date">5/22(木)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">note.com BearGo 残り12記事 投稿</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">Shopify SNS戦略検討（ブログ）</span></div></div><div class="cal-day"><div class="cal-date">5/23(金)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">Progrit 添削自動化 キックオフ（音声URL確認→実装）</span></div></div><div class="cal-day"><div class="cal-date">5/25(日)</div><div class="cal-ev"><span class="cal-time">20:00</span><span class="cal-ttl">AIXの打ち合わせ</span></div></div></div>
 </div>
 
 <div class="section fade-in d1">
@@ -429,11 +441,6 @@
       <div class="dec-reason">仕様変更リスクで突然動かなくなるリスクを避けたい　小規模EC企業がターゲットなので「CSV程度の操作」が現実的</div>
     </div>
   </div>
-</div>
-
-<div class="section fade-in d5">
-  <div class="sec-title">今週のスケジュール</div>
-  <div class="cal-scroll"><div class="cal-day today"><div class="cal-date">5/19(月)<span class="cal-today-badge">今日</span></div><div class="cal-ev"><span class="cal-time">終日</span><span class="cal-ttl">プライムで参加</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">PROGRITの添削</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">サンドステッパー 派生商品検討</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">LINE公式アカウント運用方針決定（BearGo / Daiwa）</span></div><div class="cal-ev"><span class="cal-time">11:00</span><span class="cal-ttl">【USJACLEAN】業務ブロック</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">🔄 広告の調整</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">SEOツール LINE通知 Level 3 実装</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">【Shopify SNS戦略】③ 投稿スケジュール作成・素材準備</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">🔄 広告ツール追加改善（バルクExcel比較セクション整理）</span></div><div class="cal-ev"><span class="cal-time">15:00</span><span class="cal-ttl">【Shopify SNS戦略】④ 初回投稿実施 ＋ 週次振り返り</span></div></div><div class="cal-day"><div class="cal-date">5/20(火)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">USD201 PSI資料確認</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">【無料説明会】AIエージェント・ストラテジスト資格（オンライン）</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">事業計画書PPTX Phase 0スライド修正</span></div></div><div class="cal-day"><div class="cal-date">5/22(木)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">note.com BearGo 残り12記事 投稿</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">Shopify SNS戦略検討（ブログ）</span></div></div><div class="cal-day"><div class="cal-date">5/23(金)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">Progrit 添削自動化 キックオフ（音声URL確認→実装）</span></div></div><div class="cal-day"><div class="cal-date">5/25(日)</div><div class="cal-ev"><span class="cal-time">20:00</span><span class="cal-ttl">AIXの打ち合わせ</span></div></div></div>
 </div>
 
 <div class="section fade-in d5">
