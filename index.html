@@ -3,200 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>経営コックピット | 岩嵜 AI カンパニー</title>
+  <title>K-Cockpit | 岩嵜 AI カンパニー 統合司令室</title>
   <style>
     :root {
-      --bg:#0d0d18;--s1:#131320;--s2:#1b1b2e;--s3:#232336;
-      --border:#2a2a44;--bl:#3a3a58;
+      --bg:#08080f;--s1:#0f0f1c;--s2:#161626;--s3:#1e1e30;
+      --border:#252538;--bl:#333350;
       --purple:#8b6fff;--pl:#b09aff;--pdim:rgba(139,111,255,.12);
       --green:#4ade80;--gdim:rgba(74,222,128,.1);
       --yellow:#fbbf24;--ydim:rgba(251,191,36,.1);
+      --blue:#38bdf8;--bdim:rgba(56,189,248,.1);
       --teal:#2dd4bf;
-      --text:#eaeaf4;--td:#9898b4;--tm:#52526c;
-      --r:16px;
+      --text:#dcdcf0;--td:#a0a0c4;--tm:#6a6a90;
+      --r:14px;
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     body{background:var(--bg);color:var(--text);
       font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
-      min-height:100vh;padding:32px 40px 64px}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      min-height:100vh;padding:24px 36px 64px}
+
+    /* ── Animations ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
     @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
     @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+    @keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(800%)}}
     @keyframes bounce{0%,100%{transform:scale(1)}40%{transform:scale(1.28)}}
+    @keyframes glow{0%,100%{opacity:.6}50%{opacity:1}}
     .fade-in{animation:fadeUp .45s ease both}
     .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.16s}
     .d4{animation-delay:.22s}.d5{animation-delay:.28s}
     .emoji-bounce{animation:bounce .3s ease}
+
+    /* ── Cards ── */
     .card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
       transition:transform .2s,border-color .2s,box-shadow .2s}
-    .card:hover{transform:translateY(-3px);border-color:var(--bl);box-shadow:0 10px 40px rgba(0,0,0,.45)}
-    .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
-    .greeting{font-size:13px;color:var(--tm);margin-bottom:6px}
-    h1{font-size:28px;font-weight:900;color:#fff;letter-spacing:-.02em}
-    .header-sub{font-size:13px;color:var(--tm);margin-top:5px}
-    .header-right{text-align:right}
-    .last-updated{font-size:13px;color:var(--td)}
-    .edit-link{font-size:11px;color:var(--purple);margin-top:4px;text-decoration:none}
-    .edit-link:hover{text-decoration:underline}
-    .section{margin-bottom:36px}
-    .sec-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--tm);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+    .card:hover{transform:translateY(-2px);border-color:var(--bl);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+    .pro-card{border-color:rgba(139,111,255,.2)}
+    .pro-card:hover{border-color:rgba(139,111,255,.45);box-shadow:0 8px 32px rgba(139,111,255,.12)}
+    .personal-card{border-color:rgba(56,189,248,.18)}
+    .personal-card:hover{border-color:rgba(56,189,248,.4);box-shadow:0 8px 32px rgba(56,189,248,.1)}
+
+    /* ── 司令塔 Header ── */
+    .cmd-header{
+      display:flex;align-items:center;gap:20px;
+      padding:22px 28px;margin-bottom:22px;
+      background:linear-gradient(135deg,#0b0b18 0%,#0f0f1e 60%,rgba(56,189,248,.04) 100%);
+      border:1px solid rgba(56,189,248,.2);border-radius:18px;
+      position:relative;overflow:hidden}
+    .cmd-header::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.5),rgba(139,111,255,.4),transparent)}
+    .cmd-header::after{
+      content:'';position:absolute;top:0;left:-100%;width:40%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.03),transparent);
+      animation:scan 8s linear infinite}
+    /* Avatar */
+    .cmd-avatar{
+      width:64px;height:64px;border-radius:50%;flex-shrink:0;
+      background:radial-gradient(circle at 50% 35%,#14142a 0%,#04040e 80%);
+      border:1.5px solid rgba(56,189,248,.3);
+      box-shadow:0 0 22px rgba(56,189,248,.15),0 0 60px rgba(56,189,248,.05),inset 0 0 16px rgba(0,0,0,.8);
+      position:relative;overflow:hidden}
+    .cmd-avatar::before{
+      content:'';position:absolute;
+      width:22px;height:22px;border-radius:50%;
+      background:rgba(6,6,18,.95);
+      top:10px;left:50%;transform:translateX(-50%)}
+    .cmd-avatar::after{
+      content:'';position:absolute;
+      width:52px;height:32px;border-radius:50% 50% 0 0 / 60% 60% 0 0;
+      background:rgba(5,5,16,.9);
+      bottom:-2px;left:50%;transform:translateX(-50%)}
+    /* Title block */
+    .cmd-title{flex:1}
+    .cmd-label{font-size:10px;font-weight:700;letter-spacing:.15em;
+      text-transform:uppercase;color:var(--blue);margin-bottom:5px;
+      display:flex;align-items:center;gap:8px}
+    .cmd-label::before{content:'◈';font-size:8px;animation:glow 2s ease infinite}
+    .cmd-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.1}
+    .cmd-sub{font-size:12px;color:var(--td);margin-top:5px}
+    .cmd-status{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--td)}
+    .status-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    /* Meta */
+    .cmd-meta{text-align:right;flex-shrink:0}
+    .cmd-updated{font-size:12px;color:var(--td)}
+    .cmd-auto{display:inline-flex;align-items:center;gap:4px;font-size:10px;
+      background:rgba(139,111,255,.12);color:var(--pl);
+      padding:2px 8px;border-radius:8px;margin-top:4px}
+    .cmd-edit{display:block;font-size:11px;color:var(--purple);margin-top:5px;text-decoration:none}
+    .cmd-edit:hover{text-decoration:underline}
+
+    /* ── Section ── */
+    .section{margin-bottom:28px}
+    .sec-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--tm);margin-bottom:14px;display:flex;align-items:center;gap:10px}
     .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
-    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .kpi-card{padding:22px 24px;position:relative;overflow:hidden}
-    .kpi-bg-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);
-      font-size:52px;opacity:.05;pointer-events:none;user-select:none}
-    .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#1e1038 100%);
-      border-color:rgba(139,111,255,.35)}
+    .sec-cat-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;
+      letter-spacing:.05em;text-transform:none}
+    .badge-pro{background:rgba(139,111,255,.12);color:var(--pl);border:1px solid rgba(139,111,255,.2)}
+    .badge-personal{background:rgba(56,189,248,.1);color:#7dd3fc;border:1px solid rgba(56,189,248,.18)}
+
+    /* ── KPI ── */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .kpi-card{padding:20px 22px;position:relative;overflow:hidden}
+    .kpi-bg-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      font-size:48px;opacity:.04;pointer-events:none;user-select:none}
+    .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#140e28 100%);
+      border-color:rgba(139,111,255,.3)}
     .kpi-card.ai-glow::before{content:'';position:absolute;inset:0;
-      background:linear-gradient(90deg,transparent,rgba(139,111,255,.07),transparent);
+      background:linear-gradient(90deg,transparent,rgba(139,111,255,.06),transparent);
       background-size:200% 100%;animation:shimmer 3s linear infinite}
-    .kpi-label{font-size:12px;color:var(--tm);margin-bottom:10px}
-    .kpi-value{font-size:32px;font-weight:900;color:#fff;line-height:1;position:relative}
-    .kpi-sub{font-size:12px;color:var(--td);margin-top:9px}
+    .kpi-label{font-size:11px;color:var(--td);margin-bottom:8px;font-weight:500}
+    .kpi-desc{font-size:9px;color:var(--tm);margin-bottom:8px}
+    .kpi-value{font-size:30px;font-weight:900;color:#fff;line-height:1;position:relative}
+    .kpi-sub{font-size:11px;color:var(--td);margin-top:8px}
     .up{color:var(--green)}.goal{color:var(--yellow)}
-    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .project-card{padding:22px;position:relative}
+
+    /* ── Financial Targets ── */
+    .fin-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    .fin-card{padding:16px 18px}
+    .fin-label{font-size:10px;color:var(--td);margin-bottom:6px}
+    .fin-val{font-size:20px;font-weight:900;color:#fff;line-height:1}
+    .fin-target{font-size:10px;color:var(--tm);margin-top:5px}
+    .fin-bar{height:3px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
+    .fin-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple),var(--pl));transition:width 1s ease}
+    .fin-fill.green{background:linear-gradient(90deg,#22c55e,#4ade80)}
+    .fin-fill.blue{background:linear-gradient(90deg,#0ea5e9,#38bdf8)}
+
+    /* ── Project ── */
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .project-card{padding:20px}
+    .cat-tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;
+      padding:2px 7px;border-radius:5px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
+    .tag-pro{background:rgba(139,111,255,.12);color:var(--pl);border:1px solid rgba(139,111,255,.2)}
+    .tag-personal{background:rgba(56,189,248,.1);color:#7dd3fc;border:1px solid rgba(56,189,248,.18)}
     .emoji-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;
-      width:52px;height:52px;background:var(--s2);border-radius:14px;
-      font-size:28px;cursor:pointer;user-select:none;margin-bottom:16px;
+      width:48px;height:48px;background:var(--s2);border-radius:12px;
+      font-size:26px;cursor:pointer;user-select:none;margin-bottom:12px;
       transition:background .2s,transform .15s}
     .emoji-wrap:hover{background:var(--s3);transform:scale(1.08)}
     .emoji-wrap:active{transform:scale(.93)}
-    .emoji-hint{position:absolute;bottom:-5px;right:-5px;font-size:9px;
-      background:var(--border);color:var(--td);border-radius:6px;padding:1px 4px}
-    .emoji-picker{display:none;position:absolute;top:80px;left:0;z-index:200;
-      background:var(--s2);border:1px solid var(--bl);border-radius:14px;
-      padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.7);
+    .emoji-hint{position:absolute;bottom:-4px;right:-4px;font-size:8px;
+      background:var(--border);color:var(--td);border-radius:5px;padding:1px 4px}
+    .emoji-picker{display:none;position:absolute;top:72px;left:0;z-index:200;
+      background:var(--s2);border:1px solid var(--bl);border-radius:12px;
+      padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.7);
       grid-template-columns:repeat(4,1fr);gap:4px}
     .emoji-picker.open{display:grid}
-    .ep-opt{font-size:24px;width:40px;height:40px;display:flex;align-items:center;
-      justify-content:center;border-radius:10px;cursor:pointer;transition:background .15s}
+    .ep-opt{font-size:22px;width:38px;height:38px;display:flex;align-items:center;
+      justify-content:center;border-radius:8px;cursor:pointer;transition:background .15s}
     .ep-opt:hover{background:var(--s3)}
-    .pj-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-    .pj-name{font-size:16px;font-weight:700;color:#fff}
-    .pj-sub{font-size:11px;color:var(--tm);margin-top:3px;line-height:1.4}
-    .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
-      padding:4px 10px;border-radius:20px;white-space:nowrap}
-    .bdot{width:6px;height:6px;border-radius:50%}
+    .pj-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+    .pj-name{font-size:15px;font-weight:700;color:#fff}
+    .pj-sub{font-size:10px;color:var(--tm);margin-top:2px;line-height:1.4}
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;
+      padding:3px 9px;border-radius:18px;white-space:nowrap}
+    .bdot{width:5px;height:5px;border-radius:50%}
     .b-active{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.25)}
     .b-active .bdot{background:var(--green);animation:pulse 1.8s infinite}
     .b-build{background:var(--ydim);color:var(--yellow);border:1px solid rgba(251,191,36,.25)}
     .b-build .bdot{background:var(--yellow)}
     .b-ready{background:var(--pdim);color:var(--pl);border:1px solid rgba(167,139,250,.25)}
     .b-ready .bdot{background:var(--pl)}
-    .pj-metric{font-size:28px;font-weight:900;color:#fff;line-height:1;margin-bottom:2px}
-    .pj-metric-label{font-size:11px;color:var(--tm);margin-bottom:10px}
-    .prog-bar{height:5px;background:var(--border);border-radius:5px;margin-bottom:14px;overflow:hidden}
-    .prog-fill{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .pj-metric{font-size:26px;font-weight:900;color:#fff;line-height:1;margin-bottom:2px}
+    .pj-metric-label{font-size:10px;color:var(--tm);margin-bottom:8px}
+    .prog-bar{height:4px;background:var(--border);border-radius:4px;margin-bottom:12px;overflow:hidden}
+    .prog-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
     .fill-green{background:linear-gradient(90deg,#22c55e,#4ade80)}
     .fill-yellow{background:linear-gradient(90deg,#d97706,#fbbf24)}
     .fill-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
     .fill-teal{background:linear-gradient(90deg,#0d9488,#2dd4bf)}
-    .pj-next{font-size:12px;color:var(--td);padding:10px 13px;background:var(--s2);
-      border-radius:10px;border-left:3px solid var(--purple);line-height:1.5}
-    .auto-grid{display:grid;grid-template-columns:3fr 2fr;gap:14px}
-    .auto-panel{padding:22px 24px}
-    .auto-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:18px;
+    .fill-blue{background:linear-gradient(90deg,#0ea5e9,#38bdf8)}
+    /* Next steps */
+    .ni{display:flex;align-items:baseline;gap:7px;padding:5px 0;
+      border-bottom:1px solid rgba(37,37,56,.8)}
+    .ni:last-child{border-bottom:none}
+    .ni-n{font-size:9px;font-weight:900;color:var(--purple);min-width:12px;flex-shrink:0}
+    .ni-t{font-size:11px;color:var(--td);line-height:1.4}
+
+    /* ── Automation ── */
+    .auto-grid{display:grid;grid-template-columns:3fr 2fr;gap:12px}
+    .auto-panel{padding:20px 22px}
+    .auto-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:16px;
       display:flex;align-items:center;gap:8px}
-    .dot-pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.8s infinite}
-    .dot-idle{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+    .dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.8s infinite}
+    .dot-idle{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
     .auto-row{display:flex;justify-content:space-between;align-items:center;
-      padding:11px 0;border-bottom:1px solid var(--border)}
+      padding:10px 0;border-bottom:1px solid var(--border)}
     .auto-row:last-child{border-bottom:none}
-    .auto-name{font-size:13px;color:var(--text)}
-    .auto-tech{font-size:11px;color:var(--tm);margin-top:2px}
-    .auto-save{font-size:12px;font-weight:700;color:var(--green)}
-    .wip-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+    .auto-name{font-size:12px;color:var(--text)}
+    .auto-tech{font-size:10px;color:var(--tm);margin-top:2px}
+    .auto-save{font-size:11px;font-weight:700;color:var(--green)}
+    .wip-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:18px;
       background:var(--ydim);color:var(--yellow);border:1px solid rgba(251,191,36,.2)}
-    .roi-box{margin-top:20px;padding:18px;
-      background:linear-gradient(135deg,var(--s2) 0%,rgba(139,111,255,.08) 100%);
-      border:1px solid rgba(139,111,255,.25);border-radius:14px}
-    .roi-box-label{font-size:11px;color:var(--tm);margin-bottom:6px}
-    .roi-box-val{font-size:22px;font-weight:900;color:#fff}
-    .roi-box-sub{font-size:11px;color:var(--tm);margin-top:4px}
-    .roi-box-net{font-size:20px;font-weight:900;color:var(--green);margin-top:12px}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .focus-item{display:flex;align-items:flex-start;gap:16px;padding:18px;
-      margin-bottom:10px;transition:transform .2s,border-color .2s}
+    .roi-box{margin-top:18px;padding:16px;
+      background:linear-gradient(135deg,var(--s2) 0%,rgba(139,111,255,.07) 100%);
+      border:1px solid rgba(139,111,255,.22);border-radius:12px}
+    .roi-box-label{font-size:10px;color:var(--tm);margin-bottom:5px}
+    .roi-box-val{font-size:20px;font-weight:900;color:#fff}
+    .roi-box-sub{font-size:10px;color:var(--tm);margin-top:3px}
+    .roi-box-net{font-size:18px;font-weight:900;color:var(--green);margin-top:10px}
+
+    /* ── Two-col ── */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .focus-item{display:flex;align-items:flex-start;gap:14px;padding:16px;
+      margin-bottom:8px;transition:transform .2s,border-color .2s}
     .focus-item:hover{transform:translateX(4px);border-color:var(--bl)}
-    .focus-num{font-size:28px;font-weight:900;color:var(--purple);line-height:1;min-width:24px}
+    .focus-num{font-size:26px;font-weight:900;color:var(--purple);line-height:1;min-width:22px}
     .focus-body{flex:1}
-    .focus-ttl{font-size:14px;font-weight:700;color:#fff}
-    .focus-desc{font-size:12px;color:var(--td);margin-top:4px;line-height:1.55}
-    .focus-dl{font-size:11px;font-weight:700;color:var(--yellow);
-      background:var(--ydim);padding:3px 10px;border-radius:12px;white-space:nowrap}
-    .dec-item{padding:18px 20px;margin-bottom:10px;transition:border-color .2s}
+    .focus-ttl{font-size:13px;font-weight:700;color:#fff}
+    .focus-desc{font-size:11px;color:var(--td);margin-top:3px;line-height:1.55}
+    .focus-dl{font-size:10px;font-weight:700;color:var(--yellow);
+      background:var(--ydim);padding:2px 9px;border-radius:10px;white-space:nowrap}
+    .dec-item{padding:16px 18px;margin-bottom:8px;transition:border-color .2s}
     .dec-item:hover{border-color:var(--bl)}
-    .dec-date{font-size:11px;color:var(--tm);margin-bottom:5px}
-    .dec-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
-    .dec-reason{font-size:12px;color:var(--td);line-height:1.6}
-    .footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);
-      text-align:center;font-size:11px;color:var(--tm)}
-    @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:900px){body{padding:18px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
-    @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr}.project-grid{grid-template-columns:1fr}}
-    /* Calendar strip */
-    .cal-strip{margin-bottom:32px}
-    .cal-strip-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-      color:var(--tm);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+    .dec-date{font-size:10px;color:var(--tm);margin-bottom:4px}
+    .dec-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:5px}
+    .dec-reason{font-size:11px;color:var(--td);line-height:1.6}
+
+    /* ── Calendar ── */
+    .cal-strip{margin-bottom:22px}
+    .cal-strip-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:10px}
     .cal-strip-label::after{content:'';flex:1;height:1px;background:var(--border)}
-    .cal-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+    .cal-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
     .cal-scroll::-webkit-scrollbar{height:3px}
     .cal-scroll::-webkit-scrollbar-track{background:transparent}
     .cal-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
     .cal-day{flex:0 0 180px;scroll-snap-align:start;padding:12px 14px;background:var(--s1);
-      border:1px solid var(--border);border-radius:12px;transition:border-color .2s;
-      max-height:200px;overflow-y:auto;display:flex;flex-direction:column}
+      border:1px solid var(--border);border-radius:12px;
+      max-height:190px;overflow-y:auto;display:flex;flex-direction:column}
     .cal-day::-webkit-scrollbar{width:2px}
     .cal-day::-webkit-scrollbar-thumb{background:var(--border);border-radius:1px}
-    .cal-day.today{flex:0 0 220px;border-color:rgba(139,111,255,.55);
-      background:linear-gradient(135deg,var(--s1),rgba(139,111,255,.07))}
+    .cal-day.today{flex:0 0 210px;border-color:rgba(56,189,248,.45);
+      background:linear-gradient(135deg,var(--s1),rgba(56,189,248,.05))}
     .cal-day:hover{border-color:var(--bl)}
-    .cal-date{font-size:12px;font-weight:700;color:var(--pl);margin-bottom:8px;
+    .cal-date{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:7px;
       display:flex;align-items:center;gap:5px;flex-shrink:0}
-    .cal-today-badge{font-size:8px;font-weight:700;background:var(--purple);color:#fff;
-      padding:1px 6px;border-radius:6px}
-    .cal-ev{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid rgba(42,42,68,.6)}
+    .cal-today-badge{font-size:8px;font-weight:700;background:var(--blue);color:#000;
+      padding:1px 6px;border-radius:5px}
+    .cal-ev{display:flex;gap:6px;padding:4px 0;border-bottom:1px solid rgba(37,37,56,.7)}
     .cal-ev:last-child{border-bottom:none}
-    .cal-time{font-size:10px;color:var(--tm);min-width:36px;flex-shrink:0;padding-top:1px}
+    .cal-time{font-size:9px;color:var(--tm);min-width:34px;flex-shrink:0;padding-top:1px}
     .cal-ttl{font-size:11px;color:var(--text);line-height:1.4}
     .cal-no-ev{font-size:11px;color:var(--tm)}
-    .cal-empty{font-size:13px;color:var(--tm);padding:16px 0}
-    /* History */
-    .hist-list{display:grid;gap:10px}
-    .hist-entry{padding:14px 18px;background:var(--s1);border:1px solid var(--border);
-      border-radius:12px;transition:border-color .2s}
+    .cal-empty{font-size:12px;color:var(--tm);padding:14px 0}
+
+    /* ── History ── */
+    .hist-list{display:grid;gap:8px}
+    .hist-entry{padding:12px 16px;background:var(--s1);border:1px solid var(--border);
+      border-radius:10px;transition:border-color .2s}
     .hist-entry:hover{border-color:var(--bl)}
-    .hist-dt{font-size:11px;color:var(--tm);font-weight:700;margin-bottom:8px}
-    .hist-chg{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
-    .hist-label{font-size:11px;font-weight:700;color:var(--pl);min-width:110px}
-    .hist-old{font-size:11px;color:var(--tm);text-decoration:line-through;
-      max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .hist-arr{font-size:11px;color:var(--tm)}
-    .hist-new{font-size:11px;color:var(--green);font-weight:600}
-    .hist-empty{font-size:13px;color:var(--tm);padding:20px 0;text-align:center}
+    .hist-dt{font-size:10px;color:var(--tm);font-weight:700;margin-bottom:6px}
+    .hist-chg{display:flex;align-items:center;gap:7px;margin-bottom:3px;flex-wrap:wrap}
+    .hist-label{font-size:10px;font-weight:700;color:var(--pl);min-width:100px}
+    .hist-old{font-size:10px;color:var(--tm);text-decoration:line-through;
+      max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .hist-arr{font-size:10px;color:var(--tm)}
+    .hist-new{font-size:10px;color:var(--green);font-weight:600}
+    .hist-empty{font-size:12px;color:var(--tm);padding:18px 0;text-align:center}
+
+    /* ── Footer ── */
+    .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);
+      text-align:center;font-size:10px;color:var(--tm)}
+
+    /* ── Responsive ── */
+    @media(max-width:1200px){.kpi-grid,.fin-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:900px){body{padding:16px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
+    @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr}.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}}
+
+    /* ── Theme Variables ── */
+    [data-theme="architect"]{
+      --bg:#050a18;--s1:#080f25;--s2:#0c1430;--s3:#111a3a;
+      --border:#182040;--bl:#243060;
+      --purple:#5577ee;--pl:#88aaff;--pdim:rgba(85,119,238,.12);
+      --green:#3ac88a;--gdim:rgba(58,200,138,.1);
+      --yellow:#f0c040;--ydim:rgba(240,192,64,.1);
+      --blue:#55aaff;--bdim:rgba(85,170,255,.1);
+      --teal:#30c0b0;
+      --text:#c8d8f0;--td:#8899cc;--tm:#4a5878;
+    }
+    [data-theme="strategist"]{
+      --bg:#f0f0ea;--s1:#ffffff;--s2:#f5f5f0;--s3:#eaeae3;
+      --border:#d8d8d0;--bl:#b8b8a8;
+      --purple:#5a3a8a;--pl:#7a5aaa;--pdim:rgba(90,58,138,.1);
+      --green:#2a7040;--gdim:rgba(42,112,64,.1);
+      --yellow:#8a6010;--ydim:rgba(138,96,16,.1);
+      --blue:#1a508a;--bdim:rgba(26,80,138,.1);
+      --teal:#1a706a;
+      --text:#18182a;--td:#44445a;--tm:#888898;
+    }
+    [data-theme="investor"]{
+      --bg:#090908;--s1:#111110;--s2:#181815;--s3:#1e1e1a;
+      --border:#262620;--bl:#363630;
+      --purple:#c89018;--pl:#e0b838;--pdim:rgba(200,144,24,.12);
+      --green:#2aba5a;--gdim:rgba(42,186,90,.08);
+      --yellow:#e0a820;--ydim:rgba(224,168,32,.1);
+      --blue:#3a8858;--bdim:rgba(58,136,88,.08);
+      --teal:#38a868;
+      --text:#e8dcc8;--td:#a09070;--tm:#686050;
+    }
+    /* Strategist (light theme) overrides */
+    [data-theme="strategist"] .cmd-header{background:linear-gradient(135deg,#fff 0%,#f5f5f0 60%,rgba(26,80,138,.03) 100%);border-color:rgba(26,80,138,.18)}
+    [data-theme="strategist"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(26,80,138,.3),rgba(90,58,138,.2),transparent)}
+    [data-theme="strategist"] .cmd-avatar{background:radial-gradient(circle at 50% 35%,#e0e0f0 0%,#c0c0d4 80%);border-color:rgba(26,80,138,.25);box-shadow:0 0 22px rgba(26,80,138,.08),inset 0 0 16px rgba(255,255,255,.3)}
+    [data-theme="strategist"] .cmd-avatar::before{background:rgba(235,235,248,.95)}
+    [data-theme="strategist"] .cmd-avatar::after{background:rgba(230,230,244,.95)}
+    [data-theme="strategist"] .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1)}
+    [data-theme="strategist"] .kpi-card.ai-glow{background:linear-gradient(135deg,#fff 0%,#f0eef8 100%);border-color:rgba(90,58,138,.2)}
+    [data-theme="strategist"] .kpi-card.ai-glow::before{background:linear-gradient(90deg,transparent,rgba(90,58,138,.06),transparent)}
+    [data-theme="strategist"] .roi-box{background:linear-gradient(135deg,#f5f5f0 0%,rgba(90,58,138,.06) 100%);border-color:rgba(90,58,138,.18)}
+    [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
+    /* Investor overrides */
+    [data-theme="investor"] .cmd-header{background:linear-gradient(135deg,#0a0a08 0%,#111108 60%,rgba(200,144,24,.04) 100%);border-color:rgba(200,144,24,.2)}
+    [data-theme="investor"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(200,144,24,.5),rgba(224,184,56,.4),transparent)}
+    [data-theme="investor"] .cmd-avatar{border-color:rgba(200,144,24,.3);box-shadow:0 0 22px rgba(200,144,24,.12),inset 0 0 16px rgba(0,0,0,.8)}
+    [data-theme="investor"] .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#18140a 100%);border-color:rgba(200,144,24,.25)}
+    [data-theme="investor"] .roi-box{border-color:rgba(200,144,24,.18)}
+    /* Style switcher widget */
+    .theme-switcher{display:flex;gap:5px;justify-content:flex-end;margin-top:8px}
+    .th-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--s2);
+      color:var(--td);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      transition:all .2s;opacity:.5;line-height:1}
+    .th-btn:hover{opacity:1;transform:scale(1.12);border-color:var(--bl)}
+    .th-btn.active{opacity:1;border-color:var(--blue);background:var(--bdim)}
   </style>
 </head>
 <body>
 
-<div class="header fade-in">
-  <div>
-    <div class="greeting" id="greeting">おはようございます ☀️</div>
-    <h1>経営コックピット</h1>
-    <div class="header-sub">岩嵜浩之 / AI カンパニー — <span id="month-label"></span></div>
+<!-- ══ 司令塔 ヘッダー ══════════════════════════════════════ -->
+<div class="cmd-header fade-in">
+  <div class="cmd-avatar"></div>
+  <div class="cmd-title">
+    <div class="cmd-label">AI カンパニー 統合司令室</div>
+    <div class="cmd-name">岩嵜浩之</div>
+    <div class="cmd-status">
+      <span class="status-pulse"></span>
+      全システム稼働中 — <span id="month-label" style="margin-left:4px"></span>
+    </div>
   </div>
-  <div class="header-right">
-    <div class="last-updated">最終更新: 2026-05-19 <span id="auto-badge" style="font-size:10px;background:rgba(139,111,255,.15);color:#b09aff;padding:2px 7px;border-radius:10px;margin-left:6px">自動</span></div>
-    <a class="edit-link" href="data.json" target="_blank">✏️ data.json を編集してデータを更新</a>
+  <div style="flex:1"></div>
+  <div class="cmd-meta">
+    <div class="cmd-updated">最終更新: 2026-05-20</div>
+    <div class="cmd-auto">⟳ 毎朝 8:00 JST 自動更新</div>
+    <a class="cmd-edit" href="data.json" target="_blank">✏️ data.json を編集</a>
+    <div style="font-size:9px;color:var(--tm);text-align:right;margin-top:8px">スタイル切替</div>
+    <div class="theme-switcher">
+      <button class="th-btn" data-theme="commander" title="司令塔型">⚡</button>
+      <button class="th-btn" data-theme="architect" title="建築家型">🏗️</button>
+      <button class="th-btn" data-theme="strategist" title="戦略家型">♟️</button>
+      <button class="th-btn" data-theme="investor" title="投資家型">💹</button>
+    </div>
   </div>
 </div>
 
+<!-- ══ カレンダー ═══════════════════════════════════════════ -->
 <div class="cal-strip fade-in">
   <div class="cal-strip-label">今週のスケジュール</div>
-  <div class="cal-scroll"><div class="cal-day today"><div class="cal-date">5/19(月)<span class="cal-today-badge">今日</span></div><div class="cal-ev"><span class="cal-time">終日</span><span class="cal-ttl">プライムで参加</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">PROGRITの添削</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">サンドステッパー 派生商品検討</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">LINE公式アカウント運用方針決定（BearGo / Daiwa）</span></div><div class="cal-ev"><span class="cal-time">11:00</span><span class="cal-ttl">【USJACLEAN】業務ブロック</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">🔄 広告の調整</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">SEOツール LINE通知 Level 3 実装</span></div><div class="cal-ev"><span class="cal-time">13:00</span><span class="cal-ttl">【Shopify SNS戦略】③ 投稿スケジュール作成・素材準備</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">🔄 広告ツール追加改善（バルクExcel比較セクション整理）</span></div><div class="cal-ev"><span class="cal-time">15:00</span><span class="cal-ttl">【Shopify SNS戦略】④ 初回投稿実施 ＋ 週次振り返り</span></div></div><div class="cal-day"><div class="cal-date">5/20(火)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">USD201 PSI資料確認</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">【無料説明会】AIエージェント・ストラテジスト資格（オンライン）</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">事業計画書PPTX Phase 0スライド修正</span></div></div><div class="cal-day"><div class="cal-date">5/22(木)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">note.com BearGo 残り12記事 投稿</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">Shopify SNS戦略検討（ブログ）</span></div></div><div class="cal-day"><div class="cal-date">5/23(金)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">Progrit 添削自動化 キックオフ（音声URL確認→実装）</span></div></div><div class="cal-day"><div class="cal-date">5/25(日)</div><div class="cal-ev"><span class="cal-time">20:00</span><span class="cal-ttl">AIXの打ち合わせ</span></div></div></div>
+  <div class="cal-scroll"><div class="cal-day today"><div class="cal-date">5/20(火)<span class="cal-today-badge">今日</span></div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">USD201 PSI資料確認</span></div><div class="cal-ev"><span class="cal-time">16:00</span><span class="cal-ttl">事業計画書PPTX Phase 0スライド修正</span></div></div><div class="cal-day"><div class="cal-date">5/22(木)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">note.com BearGo 残り12記事 投稿</span></div><div class="cal-ev"><span class="cal-time">14:00</span><span class="cal-ttl">Shopify SNS戦略検討（ブログ）</span></div></div><div class="cal-day"><div class="cal-date">5/23(金)</div><div class="cal-ev"><span class="cal-time">10:00</span><span class="cal-ttl">Progrit 添削自動化 キックオフ（音声URL確認→実装）</span></div></div><div class="cal-day"><div class="cal-date">5/25(日)</div><div class="cal-ev"><span class="cal-time">20:00</span><span class="cal-ttl">AIXの打ち合わせ</span></div></div></div>
 </div>
 
+<!-- ══ 経営サマリー ══════════════════════════════════════════ -->
 <div class="section fade-in d1">
   <div class="sec-title">経営サマリー</div>
   <div class="kpi-grid">
@@ -209,6 +375,7 @@
     <div class="card kpi-card">
       <div class="kpi-bg-icon">📈</div>
       <div class="kpi-label">月次 MRR（全事業合計）</div>
+      <div class="kpi-desc">Monthly Recurring Revenue — 毎月安定して入ってくる売上</div>
       <div class="kpi-value">¥0</div>
       <div class="kpi-sub goal">目標 ¥398,000 → 2026年中</div>
     </div>
@@ -227,11 +394,55 @@
   </div>
 </div>
 
+<!-- ══ 収益目標ダッシュボード ═══════════════════════════════ -->
+<div class="section fade-in d1">
+  <div class="sec-title">収益目標 <span class="sec-cat-badge badge-pro" style="margin-left:8px">月次進捗</span></div>
+  <div class="fin-grid">
+    <div class="card fin-card">
+      <div class="fin-label">🧑 月収・報酬</div>
+      <div class="fin-val">¥0</div>
+      <div class="fin-target">目標 ¥500,000/月</div>
+      <div class="fin-bar"><div class="fin-fill" style="width:0%"></div></div>
+    </div>
+    <div class="card fin-card">
+      <div class="fin-label">🛍️ EC（Daiwa）</div>
+      <div class="fin-val">¥–</div>
+      <div class="fin-target">目標 ¥300,000/月</div>
+      <div class="fin-bar"><div class="fin-fill blue" style="width:0%"></div></div>
+    </div>
+    <div class="card fin-card">
+      <div class="fin-label">🔧 Amazon Toolkit</div>
+      <div class="fin-val">¥0</div>
+      <div class="fin-target">目標 ¥100,000/月</div>
+      <div class="fin-bar"><div class="fin-fill" style="width:0%"></div></div>
+    </div>
+    <div class="card fin-card">
+      <div class="fin-label">🤖 AIコンサル</div>
+      <div class="fin-val">¥0</div>
+      <div class="fin-target">目標 ¥300,000/月</div>
+      <div class="fin-bar"><div class="fin-fill green" style="width:0%"></div></div>
+    </div>
+    <div class="card fin-card">
+      <div class="fin-label">🐻 BearGo</div>
+      <div class="fin-val">¥0</div>
+      <div class="fin-target">目標 ¥100,000/月</div>
+      <div class="fin-bar"><div class="fin-fill blue" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ プロジェクト状況 ════════════════════════════════════ -->
 <div class="section fade-in d2">
-  <div class="sec-title">プロジェクト状況（6事業）</div>
+  <div class="sec-title">
+    プロジェクト状況
+    <span class="sec-cat-badge badge-pro" style="margin-left:8px">ビジネス</span>
+    <span class="sec-cat-badge badge-personal" style="margin-left:4px">パーソナル</span>
+  </div>
   <div class="project-grid">
 
-    <div class="card project-card">
+    <!-- EC -->
+    <div class="card project-card pro-card">
+      <div class="cat-tag tag-pro">ビジネス</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="ec" onclick="togglePicker(this)">
           <span class="emoji-face">🛍️</span><span class="emoji-hint">変更</span>
@@ -250,10 +461,12 @@
       <div class="pj-metric">¥–</div>
       <div class="pj-metric-label">月次 MRR</div>
       <div class="prog-bar"><div class="prog-fill fill-teal" style="width:0%"></div></div>
-      <div class="pj-next">次: Shopify立ち上げ（売上8割が1商品依存を分散）</div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">Shopify立ち上げ</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">LINE公式アカウント運用開始</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">商品ライン分散（8割依存解消）</span></div>
     </div>
 
-    <div class="card project-card">
+    <!-- Toolkit -->
+    <div class="card project-card pro-card">
+      <div class="cat-tag tag-pro">ビジネス</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="toolkit" onclick="togglePicker(this)">
           <span class="emoji-face">🔧</span><span class="emoji-hint">変更</span>
@@ -272,10 +485,12 @@
       <div class="pj-metric">¥0</div>
       <div class="pj-metric-label">MRR / 目標 ¥98,000〜¥498,000</div>
       <div class="prog-bar"><div class="prog-fill fill-yellow" style="width:0%"></div></div>
-      <div class="pj-next">次: SEOツール Level 3（LINE通知）実装</div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">SEO Level 3 LINE通知実装</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">課金システム導入準備</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">初客1社獲得</span></div>
     </div>
 
-    <div class="card project-card">
+    <!-- Consult -->
+    <div class="card project-card pro-card">
+      <div class="cat-tag tag-pro">ビジネス</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="consult" onclick="togglePicker(this)">
           <span class="emoji-face">🤖</span><span class="emoji-hint">変更</span>
@@ -288,16 +503,18 @@
         </div>
       </div>
       <div class="pj-row">
-        <div><div class="pj-name">AI自動化コンサル</div><div class="pj-sub">6デモ完成 / YuYA差別化戦略</div></div>
+        <div><div class="pj-name">AI自動化コンサル</div><div class="pj-sub">AIX × 岩嵜 / YuYA差別化戦略</div></div>
         <span class="badge b-ready"><span class="bdot"></span>営業準備中</span>
       </div>
       <div class="pj-metric">0社</div>
       <div class="pj-metric-label">成約数 / 目標 月額¥300,000+</div>
       <div class="prog-bar"><div class="prog-fill fill-purple" style="width:0%"></div></div>
-      <div class="pj-next">次: YuYA向け説明資料 〜5/20 ⚠️</div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">自社ECにCockpitデモ実施</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">小暮さんへアプローチ</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">AIX初回成約</span></div>
     </div>
 
-    <div class="card project-card">
+    <!-- BearGo -->
+    <div class="card project-card pro-card">
+      <div class="cat-tag tag-pro">ビジネス</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="beargo" onclick="togglePicker(this)">
           <span class="emoji-face">🐻</span><span class="emoji-hint">変更</span>
@@ -316,10 +533,12 @@
       <div class="pj-metric">102冊</div>
       <div class="pj-metric-label">生成済み / 目標 246冊</div>
       <div class="prog-bar"><div class="prog-fill fill-teal" id="bg-prog"></div></div>
-      <div class="pj-next">次: Leoキャラ完成 + Pinterestチャネル展開</div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">Leoキャラクター完成</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">Pinterest展開</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">MIフォロワー+3名</span></div>
     </div>
 
-    <div class="card project-card">
+    <!-- Minecraft -->
+    <div class="card project-card personal-card">
+      <div class="cat-tag tag-personal">パーソナル</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="minecraft" onclick="togglePicker(this)">
           <span class="emoji-face">🎮</span><span class="emoji-hint">変更</span>
@@ -337,11 +556,13 @@
       </div>
       <div class="pj-metric">−</div>
       <div class="pj-metric-label">無料公開中（収益化未定）</div>
-      <div class="prog-bar"><div class="prog-fill fill-green" style="width:100%"></div></div>
-      <div class="pj-next">次: 絵本22枚ブラウザ再生成 → デプロイ</div>
+      <div class="prog-bar"><div class="prog-fill fill-blue" style="width:100%"></div></div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">ブラウザ品質再生成22枚</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">Cloudflareデプロイ完了</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">収益化モデル検討</span></div>
     </div>
 
-    <div class="card project-card">
+    <!-- DiaryHolic -->
+    <div class="card project-card personal-card">
+      <div class="cat-tag tag-personal">パーソナル</div>
       <div style="position:relative">
         <div class="emoji-wrap" data-proj="diary" onclick="togglePicker(this)">
           <span class="emoji-face">📔</span><span class="emoji-hint">変更</span>
@@ -359,13 +580,14 @@
       </div>
       <div class="pj-metric">−</div>
       <div class="pj-metric-label">無料公開中（収益化未定）</div>
-      <div class="prog-bar"><div class="prog-fill fill-green" style="width:100%"></div></div>
-      <div class="pj-next">次: 収益化戦略の検討</div>
+      <div class="prog-bar"><div class="prog-fill fill-blue" style="width:100%"></div></div>
+      <div class="ni"><span class="ni-n">1</span><span class="ni-t">収益化戦略策定</span></div><div class="ni"><span class="ni-n">2</span><span class="ni-t">ユーザー獲得施策</span></div><div class="ni"><span class="ni-n">3</span><span class="ni-t">機能拡充ロードマップ</span></div>
     </div>
 
   </div>
 </div>
 
+<!-- ══ AI自動化マトリクス ════════════════════════════════== -->
 <div class="section fade-in d3">
   <div class="sec-title">AI自動化マトリクス</div>
   <div class="auto-grid">
@@ -389,12 +611,13 @@
         <div class="roi-box-label">もし全部人間でやったら…</div>
         <div class="roi-box-val">¥288,000/月</div>
         <div class="roi-box-sub">= 144h × ¥2,000/h</div>
-        <div class="roi-box-net">実質 ¥258,000/月 の節約 🎉</div>
+        <div class="roi-box-net">実質 ¥258,000/月 の節約</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ══ フォーカス + 意思決定 ════════════════════════════════ -->
 <div class="two-col fade-in d4">
   <div class="section">
     <div class="sec-title">今月のフォーカス（Top 3）</div>
@@ -443,21 +666,39 @@
   </div>
 </div>
 
+<!-- ══ 変更履歴 ════════════════════════════════════════════ -->
 <div class="section fade-in d5">
   <div class="sec-title">変更履歴</div>
   <div class="hist-list"><div class="hist-empty">変更履歴はまだありません</div></div>
 </div>
 
 <div class="footer fade-in d5">
-  経営コックピット — 岩嵜 AI カンパニー — 毎朝 8:00 JST 自動更新 / データ変更は data.json を編集してください
+  K-Cockpit — 岩嵜 AI カンパニー 統合司令室 — 毎朝 8:00 JST 自動更新
 </div>
 
 <script>
+  // Theme switcher
+  (function(){
+    var saved = localStorage.getItem('cp_theme') || 'commander';
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelectorAll('.th-btn').forEach(function(btn){
+      if(btn.dataset.theme === saved) btn.classList.add('active');
+      btn.addEventListener('click', function(){
+        var t = btn.dataset.theme;
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('cp_theme', t);
+        document.querySelectorAll('.th-btn').forEach(function(b){
+          b.classList.toggle('active', b === btn);
+        });
+      });
+    });
+  })();
+
+  // グリーティング + 月ラベル
   const now = new Date();
   const h = now.getHours();
-  const greets = [[5,12,'おはようございます ☀️'],[12,18,'こんにちは 🌤️'],[18,22,'お疲れ様です 🌙'],[0,24,'遅くまでお疲れ様です 🌙']];
+  const greets = [[5,12,'おはようございます'],[12,18,'こんにちは'],[18,22,'お疲れ様です'],[0,24,'遅くまでお疲れ様です']];
   const g = greets.find(([s,e]) => h>=s && h<e) || greets[3];
-  document.getElementById('greeting').textContent = g[2];
   document.getElementById('month-label').textContent = now.getFullYear()+'年'+(now.getMonth()+1)+'月';
 
   // BearGo進捗バー
