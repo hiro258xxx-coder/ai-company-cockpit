@@ -109,17 +109,21 @@ TEMPLATE = """\
     /* ── 司令塔 Header ── */
     .cmd-header{
       display:flex;align-items:center;gap:20px;
-      padding:22px 28px;margin-bottom:22px;
-      background:linear-gradient(135deg,#0b0b18 0%,#0f0f1e 60%,rgba(56,189,248,.04) 100%);
-      border:1px solid rgba(56,189,248,.2);border-radius:18px;
+      padding:24px 32px;margin-bottom:22px;min-height:180px;
+      background:
+        linear-gradient(90deg,rgba(8,8,15,.92) 42%,rgba(8,8,15,.55) 65%,rgba(8,8,15,.1) 85%,transparent 100%),
+        url('images/commander.png') right top / cover no-repeat,
+        linear-gradient(135deg,#0b0b18 0%,#0f0f1e 100%);
+      border:1px solid rgba(56,189,248,.25);border-radius:18px;
       position:relative;overflow:hidden}
     .cmd-header::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:1px;
-      background:linear-gradient(90deg,transparent,rgba(56,189,248,.5),rgba(139,111,255,.4),transparent)}
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:2;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.6),rgba(139,111,255,.5),transparent)}
     .cmd-header::after{
-      content:'';position:absolute;top:0;left:-100%;width:40%;height:100%;
-      background:linear-gradient(90deg,transparent,rgba(56,189,248,.03),transparent);
+      content:'';position:absolute;top:0;left:-100%;width:40%;height:100%;z-index:2;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.04),transparent);
       animation:scan 8s linear infinite}
+    .cmd-header > *{position:relative;z-index:1}
     /* Avatar */
     .cmd-avatar{
       width:64px;height:64px;border-radius:50%;flex-shrink:0;
@@ -366,9 +370,23 @@ TEMPLATE = """\
       --teal:#38a868;
       --text:#e8dcc8;--td:#a09070;--tm:#686050;
     }
+    /* Architect overrides */
+    [data-theme="architect"] .cmd-header{
+      background:
+        linear-gradient(90deg,rgba(5,10,24,.92) 42%,rgba(5,10,24,.55) 65%,rgba(5,10,24,.1) 85%,transparent 100%),
+        url('images/architect.png') right top / cover no-repeat,
+        #050a18;
+      border-color:rgba(85,170,255,.25)}
+    [data-theme="architect"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(85,170,255,.6),rgba(85,119,238,.5),transparent)}
     /* Strategist (light theme) overrides */
-    [data-theme="strategist"] .cmd-header{background:linear-gradient(135deg,#fff 0%,#f5f5f0 60%,rgba(26,80,138,.03) 100%);border-color:rgba(26,80,138,.18)}
-    [data-theme="strategist"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(26,80,138,.3),rgba(90,58,138,.2),transparent)}
+    [data-theme="strategist"] .cmd-header{
+      background:
+        linear-gradient(90deg,rgba(240,240,234,.97) 42%,rgba(240,240,234,.7) 62%,rgba(240,240,234,.2) 80%,transparent 100%),
+        url('images/strategist.png') right top / cover no-repeat,
+        #f0f0ea;
+      border-color:rgba(26,80,138,.2)}
+    [data-theme="strategist"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(26,80,138,.35),rgba(90,58,138,.25),transparent)}
+    [data-theme="strategist"] .cmd-header::after{background:linear-gradient(90deg,transparent,rgba(26,80,138,.04),transparent)}
     [data-theme="strategist"] .cmd-avatar{background:radial-gradient(circle at 50% 35%,#e0e0f0 0%,#c0c0d4 80%);border-color:rgba(26,80,138,.25);box-shadow:0 0 22px rgba(26,80,138,.08),inset 0 0 16px rgba(255,255,255,.3)}
     [data-theme="strategist"] .cmd-avatar::before{background:rgba(235,235,248,.95)}
     [data-theme="strategist"] .cmd-avatar::after{background:rgba(230,230,244,.95)}
@@ -378,11 +396,35 @@ TEMPLATE = """\
     [data-theme="strategist"] .roi-box{background:linear-gradient(135deg,#f5f5f0 0%,rgba(90,58,138,.06) 100%);border-color:rgba(90,58,138,.18)}
     [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
     /* Investor overrides */
-    [data-theme="investor"] .cmd-header{background:linear-gradient(135deg,#0a0a08 0%,#111108 60%,rgba(200,144,24,.04) 100%);border-color:rgba(200,144,24,.2)}
-    [data-theme="investor"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(200,144,24,.5),rgba(224,184,56,.4),transparent)}
+    [data-theme="investor"] .cmd-header{
+      background:
+        linear-gradient(90deg,rgba(9,9,8,.92) 42%,rgba(9,9,8,.55) 65%,rgba(9,9,8,.1) 85%,transparent 100%),
+        url('images/investor.png') right top / cover no-repeat,
+        #090908;
+      border-color:rgba(200,144,24,.22)}
+    [data-theme="investor"] .cmd-header::before{background:linear-gradient(90deg,transparent,rgba(200,144,24,.55),rgba(224,184,56,.45),transparent)}
     [data-theme="investor"] .cmd-avatar{border-color:rgba(200,144,24,.3);box-shadow:0 0 22px rgba(200,144,24,.12),inset 0 0 16px rgba(0,0,0,.8)}
     [data-theme="investor"] .kpi-card.ai-glow{background:linear-gradient(135deg,var(--s1) 0%,#18140a 100%);border-color:rgba(200,144,24,.25)}
     [data-theme="investor"] .roi-box{border-color:rgba(200,144,24,.18)}
+    /* Per-theme number & accent styling */
+    [data-theme="architect"] .kpi-value{text-shadow:0 0 24px rgba(85,170,255,.45);font-size:32px}
+    [data-theme="architect"] .fin-val{text-shadow:0 0 16px rgba(85,170,255,.35)}
+    [data-theme="architect"] .pj-metric{text-shadow:0 0 16px rgba(85,170,255,.35)}
+    [data-theme="architect"] .focus-num{text-shadow:0 0 20px rgba(85,119,238,.5)}
+    [data-theme="investor"] .kpi-value{color:var(--yellow);text-shadow:0 0 16px rgba(200,144,24,.3)}
+    [data-theme="investor"] .fin-val{color:var(--yellow)}
+    [data-theme="investor"] .pj-metric{color:var(--yellow)}
+    [data-theme="investor"] .focus-num{color:var(--yellow)}
+    [data-theme="investor"] .up{color:var(--green)}
+    [data-theme="strategist"] .kpi-value{color:var(--text);font-size:28px}
+    [data-theme="strategist"] .fin-val{color:var(--text)}
+    [data-theme="strategist"] .pj-metric{color:var(--text)}
+    [data-theme="strategist"] .cmd-label{color:var(--blue)}
+    [data-theme="strategist"] .cmd-name{color:var(--text)}
+    [data-theme="strategist"] .cmd-status{color:var(--td)}
+    [data-theme="strategist"] .cmd-updated{color:var(--td)}
+    [data-theme="strategist"] .status-pulse{background:var(--green)}
+    [data-theme="strategist"] .focus-num{color:var(--purple)}
     /* Style switcher widget */
     .theme-switcher{display:flex;gap:5px;justify-content:flex-end;margin-top:8px}
     .th-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--s2);
