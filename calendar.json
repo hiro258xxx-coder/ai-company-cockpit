@@ -1,26 +1,9 @@
 [
   {
-    "date": "5/19(月)",
+    "date": "5/20(火)",
     "label": "今日",
     "events": [
-      { "time": "終日", "title": "プライムで参加" },
-      { "time": "10:00", "title": "PROGRITの添削" },
-      { "time": "10:00", "title": "サンドステッパー 派生商品検討" },
-      { "time": "10:00", "title": "LINE公式アカウント運用方針決定（BearGo / Daiwa）" },
-      { "time": "11:00", "title": "【USJACLEAN】業務ブロック" },
-      { "time": "13:00", "title": "🔄 広告の調整" },
-      { "time": "13:00", "title": "SEOツール LINE通知 Level 3 実装" },
-      { "time": "13:00", "title": "【Shopify SNS戦略】③ 投稿スケジュール作成・素材準備" },
-      { "time": "14:00", "title": "🔄 広告ツール追加改善（バルクExcel比較セクション整理）" },
-      { "time": "15:00", "title": "【Shopify SNS戦略】④ 初回投稿実施 ＋ 週次振り返り" }
-    ]
-  },
-  {
-    "date": "5/20(火)",
-    "label": "",
-    "events": [
       { "time": "10:00", "title": "USD201 PSI資料確認" },
-      { "time": "16:00", "title": "【無料説明会】AIエージェント・ストラテジスト資格（オンライン）" },
       { "time": "16:00", "title": "事業計画書PPTX Phase 0スライド修正" }
     ]
   },
