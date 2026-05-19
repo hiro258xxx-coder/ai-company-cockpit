@@ -67,7 +67,7 @@ TEMPLATE = """\
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-Cockpit | AI カンパニー 統合指令室</title>
+  <title>K-Dashboard | AI カンパニー 戦略指令センター</title>
   <style>
     :root {
       --bg:#08080f;--s1:#0f0f1c;--s2:#161626;--s3:#1e1e30;
@@ -112,11 +112,12 @@ TEMPLATE = """\
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        repeating-linear-gradient(60deg,transparent 0,transparent 28px,rgba(56,189,248,.05) 28px,rgba(56,189,248,.05) 29px),
-        repeating-linear-gradient(-60deg,transparent 0,transparent 28px,rgba(56,189,248,.05) 28px,rgba(56,189,248,.05) 29px),
-        radial-gradient(ellipse at 50% 60%,rgba(56,189,248,.18) 0%,transparent 55%),
-        linear-gradient(160deg,#050810 0%,#060a14 100%);
-      border:1px solid rgba(56,189,248,.22)}
+        repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(56,189,248,.018) 3px,rgba(56,189,248,.018) 4px),
+        repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(56,189,248,.06) 39px,rgba(56,189,248,.06) 40px),
+        repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(56,189,248,.06) 39px,rgba(56,189,248,.06) 40px),
+        radial-gradient(ellipse at 22% 78%,rgba(56,189,248,.24) 0%,transparent 52%),
+        linear-gradient(160deg,#040810 0%,#060a14 100%);
+      border:1px solid rgba(56,189,248,.3)}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
@@ -370,24 +371,26 @@ TEMPLATE = """\
     /* ── Per-theme Hero backgrounds ── */
     [data-theme="architect"] .hero{
       background:
-        linear-gradient(rgba(85,170,255,.07) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(85,170,255,.07) 1px,transparent 1px),
-        linear-gradient(rgba(85,170,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(85,170,255,.025) 1px,transparent 1px),
-        radial-gradient(ellipse at 50% 45%,rgba(85,170,255,.22) 0%,transparent 55%),
+        repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(85,170,255,.014) 3px,rgba(85,170,255,.014) 4px),
+        linear-gradient(rgba(85,170,255,.1) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(85,170,255,.1) 1px,transparent 1px),
+        linear-gradient(rgba(85,170,255,.03) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(85,170,255,.03) 1px,transparent 1px),
+        radial-gradient(ellipse at 50% 50%,rgba(85,170,255,.26) 0%,transparent 58%),
         #040d1e;
-      background-size:40px 40px,40px 40px,8px 8px,8px 8px,100%,100%;
-      border-color:rgba(85,170,255,.22)}
+      background-size:auto,60px 60px,60px 60px,10px 10px,10px 10px,100%,100%;
+      border-color:rgba(85,170,255,.28)}
     [data-theme="architect"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.7),rgba(85,119,238,.6),transparent)}
     [data-theme="architect"] .hero::after{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.05),transparent)}
     [data-theme="strategist"] .hero{
       background:
-        radial-gradient(ellipse at 75% 40%,rgba(26,80,138,.1) 0%,transparent 50%),
-        radial-gradient(ellipse at 25% 70%,rgba(42,112,64,.07) 0%,transparent 45%),
+        repeating-radial-gradient(circle at 32% 52%,transparent 0,transparent 38px,rgba(26,80,138,.07) 38px,rgba(26,80,138,.07) 39px),
+        repeating-radial-gradient(circle at 68% 48%,transparent 0,transparent 52px,rgba(26,80,138,.05) 52px,rgba(26,80,138,.05) 53px),
+        radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.55) 0%,transparent 68%),
         linear-gradient(135deg,#f5f4ee 0%,#ede8d8 100%);
-      border-color:rgba(26,80,138,.18)}
+      border-color:rgba(26,80,138,.22)}
     [data-theme="strategist"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(26,80,138,.4),rgba(90,58,138,.3),transparent)}
     [data-theme="strategist"] .hero::after{
@@ -406,10 +409,11 @@ TEMPLATE = """\
     [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
     [data-theme="investor"] .hero{
       background:
+        repeating-linear-gradient(45deg,transparent 0,transparent 18px,rgba(200,144,24,.04) 18px,rgba(200,144,24,.04) 19px),
         repeating-linear-gradient(-45deg,transparent 0,transparent 18px,rgba(200,144,24,.04) 18px,rgba(200,144,24,.04) 19px),
-        radial-gradient(ellipse at 60% 55%,rgba(200,144,24,.16) 0%,transparent 55%),
+        radial-gradient(ellipse at 58% 62%,rgba(200,144,24,.22) 0%,transparent 52%),
         linear-gradient(160deg,#080807 0%,#0d0b06 100%);
-      border-color:rgba(200,144,24,.22)}
+      border-color:rgba(200,144,24,.26)}
     [data-theme="investor"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(200,144,24,.6),rgba(224,184,56,.5),transparent)}
     [data-theme="investor"] .hero::after{
@@ -443,7 +447,7 @@ TEMPLATE = """\
   <!-- Top bar -->
   <div class="hero-top">
     <div>
-      <div class="hero-brand">AI カンパニー 統合司令室</div>
+      <div class="hero-brand">AI カンパニー 戦略指令センター</div>
       <div class="hero-top-status">
         <span class="status-pulse"></span>
         <span style="margin-left:2px">全システム稼働中 —</span>
@@ -457,18 +461,18 @@ TEMPLATE = """\
       <div class="th-wrap">
         <div class="th-label-text">スタイル切替</div>
         <div class="theme-switcher">
-          <button class="th-btn" data-theme="commander" title="司令塔型">⚡</button>
-          <button class="th-btn" data-theme="architect" title="建築家型">🏗️</button>
-          <button class="th-btn" data-theme="strategist" title="戦略家型">♟️</button>
-          <button class="th-btn" data-theme="investor" title="投資家型">💹</button>
+          <button class="th-btn" data-theme="commander" title="指令室モード">⚡</button>
+          <button class="th-btn" data-theme="architect" title="設計室モード">📐</button>
+          <button class="th-btn" data-theme="strategist" title="戦略マップモード">🗺️</button>
+          <button class="th-btn" data-theme="investor" title="役員室モード">📊</button>
         </div>
       </div>
     </div>
   </div>
   <!-- Bottom: system branding + metric chips -->
   <div class="hero-bottom">
-    <div class="hero-sys-title">K-COCKPIT</div>
-    <div class="hero-sys-sub">AI カンパニー 統合指令室</div>
+    <div class="hero-sys-title">K-DASHBOARD</div>
+    <div class="hero-sys-sub">AI カンパニー 戦略指令センター</div>
     <div class="hero-metrics">
       <div class="hero-metric">
         <div class="hm-label">💰 手元資金</div>
@@ -779,7 +783,7 @@ TEMPLATE = """\
 </div>
 
 <div class="footer fade-in d5">
-  K-Cockpit — AI カンパニー 統合指令室 — 毎朝 8:00 JST 自動更新
+  K-Dashboard — AI カンパニー 戦略指令センター — 毎朝 8:00 JST 自動更新
 </div>
 
 <script>
