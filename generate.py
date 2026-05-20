@@ -112,11 +112,19 @@ TEMPLATE = """\
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(108deg, rgba(1,4,8,.97) 0%, rgba(1,4,8,.90) 26%, rgba(1,4,8,.52) 50%, rgba(1,4,8,.14) 76%, rgba(1,4,8,.04) 100%),
-        radial-gradient(ellipse at 6% 85%, rgba(56,189,248,.18) 0%, transparent 30%),
-        url('images/emperor-cmd.png') center/cover no-repeat,
+        radial-gradient(ellipse at 72% 28%, rgba(56,189,248,.20) 0%, transparent 50%),
+        radial-gradient(ellipse at 14% 82%, rgba(139,111,255,.09) 0%, transparent 36%),
+        radial-gradient(ellipse at 50% 50%, rgba(1,8,24,.0) 0%, rgba(1,4,8,.4) 100%),
         #010408;
       border:1px solid rgba(56,189,248,.28)}
+    /* Emperor silhouette (SVG, right side) */
+    .hero-emperor{
+      position:absolute;right:2%;bottom:0;height:88%;width:auto;
+      z-index:4;pointer-events:none;opacity:.9;
+      filter:
+        drop-shadow(0 0 28px rgba(56,189,248,.45))
+        drop-shadow(0 0 70px rgba(56,189,248,.18))
+        drop-shadow(0 0 120px rgba(56,189,248,.06))}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
@@ -371,10 +379,7 @@ TEMPLATE = """\
       --text:#ede9fe;--td:#c4b5fd;--tm:#8b5cf6;
     }
 
-    /* ── Per-theme Hero backgrounds (non-commander: override image with CSS-only) ── */
-    [data-theme="architect"] .hero,
-    [data-theme="strategist"] .hero,
-    [data-theme="investor"] .hero{background-image:none}
+    /* ── Per-theme Hero backgrounds ── */
     [data-theme="architect"] .hero{
       background:
         radial-gradient(ellipse at 66% 36%, rgba(85,170,255,.22) 0%, transparent 54%),
@@ -459,7 +464,36 @@ TEMPLATE = """\
       </div>
     </div>
   </div>
-  <!-- Bottom: KPI chips float over the command photo -->
+  <!-- Emperor silhouette: seated, legs crossed, right side -->
+  <svg class="hero-emperor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 460" aria-hidden="true">
+    <g fill="rgba(0,3,12,.94)">
+      <!-- Throne spine (tall back, central) -->
+      <path d="M134 460 L134 22 Q134 6 150 2 Q166 6 166 22 L166 460 Z"/>
+      <!-- Head (solid oval, no details) -->
+      <ellipse cx="150" cy="74" rx="31" ry="35"/>
+      <!-- Neck -->
+      <rect x="140" y="104" width="20" height="22"/>
+      <!-- Torso: wide at shoulders, tapers to hips -->
+      <path d="M74 130 C74 118 150 116 150 116 S226 118 226 130 L233 292 L67 292 Z"/>
+      <!-- Left arm along armrest -->
+      <path d="M72 146 L52 160 L50 202 L67 202 L67 168 L83 152 Z"/>
+      <!-- Right arm along armrest -->
+      <path d="M228 146 L248 160 L250 202 L233 202 L233 168 L217 152 Z"/>
+      <!-- Armrest caps -->
+      <ellipse cx="60" cy="200" rx="14" ry="7"/>
+      <ellipse cx="240" cy="200" rx="14" ry="7"/>
+      <!-- Seat bar -->
+      <rect x="56" y="292" width="168" height="13" rx="5"/>
+      <!-- LEFT LEG: straight down, left side -->
+      <path d="M64 305 L130 305 L126 382 C124 400 112 404 100 402 C87 400 82 387 84 372 L80 305 Z"/>
+      <ellipse cx="102" cy="406" rx="27" ry="13"/>
+      <!-- RIGHT LEG: horizontal extension (crossed over), then angled foot -->
+      <path d="M148 305 L236 305 L232 322 L148 322 Z"/>
+      <path d="M212 305 L248 305 L248 352 C248 368 236 372 225 370 C213 368 210 355 210 342 L210 322 L212 322 Z"/>
+      <ellipse cx="230" cy="374" rx="26" ry="13"/>
+    </g>
+  </svg>
+  <!-- Bottom: KPI chips -->
   <div class="hero-bottom">
     <div class="hero-sys-title">K-DASHBOARD</div>
     <div class="hero-sys-sub">AI カンパニー 戦略指令センター</div>
