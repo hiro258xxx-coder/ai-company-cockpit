@@ -48,15 +48,11 @@
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(105deg,
-          rgba(4,8,16,.97) 0%,
-          rgba(4,8,16,.93) 32%,
-          rgba(4,8,16,.55) 52%,
-          rgba(4,8,16,.10) 72%,
-          rgba(4,8,16,.04) 100%),
-        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
-        #040810;
-      border:1px solid rgba(56,189,248,.28)}
+        radial-gradient(ellipse at 68% 36%, rgba(56,189,248,.22) 0%, transparent 54%),
+        radial-gradient(ellipse at 90% 92%, rgba(56,189,248,.07) 0%, transparent 28%),
+        radial-gradient(ellipse at 8% 8%, rgba(139,111,255,.06) 0%, transparent 28%),
+        #010408;
+      border:1px solid rgba(56,189,248,.22)}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
@@ -287,88 +283,64 @@
       --text:#c8d8f0;--td:#8899cc;--tm:#4a5878;
     }
     [data-theme="strategist"]{
-      --bg:#f0f0ea;--s1:#ffffff;--s2:#f5f5f0;--s3:#eaeae3;
-      --border:#d8d8d0;--bl:#b8b8a8;
-      --purple:#5a3a8a;--pl:#7a5aaa;--pdim:rgba(90,58,138,.1);
-      --green:#2a7040;--gdim:rgba(42,112,64,.1);
-      --yellow:#8a6010;--ydim:rgba(138,96,16,.1);
-      --blue:#1a508a;--bdim:rgba(26,80,138,.1);
-      --teal:#1a706a;
-      --text:#18182a;--td:#44445a;--tm:#888898;
+      --bg:#030a06;--s1:#07140c;--s2:#0c1e12;--s3:#112819;
+      --border:#183322;--bl:#245c38;
+      --purple:#a3e635;--pl:#bef264;--pdim:rgba(163,230,53,.1);
+      --green:#4ade80;--gdim:rgba(74,222,128,.1);
+      --yellow:#86efac;--ydim:rgba(134,239,172,.1);
+      --blue:#34d399;--bdim:rgba(52,211,153,.1);
+      --teal:#2dd4bf;
+      --text:#d1fae5;--td:#6ee7b7;--tm:#34d399;
     }
     [data-theme="investor"]{
-      --bg:#090908;--s1:#111110;--s2:#181815;--s3:#1e1e1a;
-      --border:#262620;--bl:#363630;
-      --purple:#c89018;--pl:#e0b838;--pdim:rgba(200,144,24,.12);
-      --green:#2aba5a;--gdim:rgba(42,186,90,.08);
-      --yellow:#e0a820;--ydim:rgba(224,168,32,.1);
-      --blue:#3a8858;--bdim:rgba(58,136,88,.08);
-      --teal:#38a868;
-      --text:#e8dcc8;--td:#a09070;--tm:#686050;
+      --bg:#060408;--s1:#0e0a14;--s2:#140e1e;--s3:#1a1228;
+      --border:#241a34;--bl:#382650;
+      --purple:#a855f7;--pl:#c084fc;--pdim:rgba(168,85,247,.12);
+      --green:#4ade80;--gdim:rgba(74,222,128,.08);
+      --yellow:#c084fc;--ydim:rgba(192,132,252,.1);
+      --blue:#8b5cf6;--bdim:rgba(139,92,246,.1);
+      --teal:#a78bfa;
+      --text:#ede9fe;--td:#c4b5fd;--tm:#8b5cf6;
     }
 
     /* ── Per-theme Hero backgrounds ── */
     [data-theme="architect"] .hero{
       background:
-        linear-gradient(105deg,
-          rgba(4,13,30,.97) 0%,
-          rgba(4,13,30,.93) 32%,
-          rgba(4,13,30,.50) 52%,
-          rgba(4,13,30,.08) 72%,
-          rgba(4,13,30,.03) 100%),
-        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
-        #040d1e;
-      border-color:rgba(85,170,255,.28)}
+        radial-gradient(ellipse at 66% 36%, rgba(85,170,255,.22) 0%, transparent 54%),
+        radial-gradient(ellipse at 90% 90%, rgba(85,170,255,.07) 0%, transparent 28%),
+        radial-gradient(ellipse at 10% 10%, rgba(55,119,238,.05) 0%, transparent 25%),
+        #010408;
+      border-color:rgba(85,170,255,.22)}
     [data-theme="architect"] .hero::before{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.7),rgba(85,119,238,.6),transparent)}
     [data-theme="architect"] .hero::after{
       background:linear-gradient(90deg,transparent,rgba(85,170,255,.05),transparent)}
     [data-theme="strategist"] .hero{
       background:
-        linear-gradient(105deg,
-          rgba(245,244,238,.99) 0%,
-          rgba(245,244,238,.96) 38%,
-          rgba(245,244,238,.78) 54%,
-          rgba(245,244,238,.45) 72%,
-          rgba(245,244,238,.22) 100%),
-        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
-        #f5f4ee;
-      border-color:rgba(26,80,138,.2)}
+        radial-gradient(ellipse at 66% 36%, rgba(74,222,128,.20) 0%, transparent 54%),
+        radial-gradient(ellipse at 90% 90%, rgba(34,197,94,.07) 0%, transparent 28%),
+        radial-gradient(ellipse at 10% 10%, rgba(16,185,129,.05) 0%, transparent 25%),
+        #010803;
+      border-color:rgba(74,222,128,.22)}
     [data-theme="strategist"] .hero::before{
-      background:linear-gradient(90deg,transparent,rgba(26,80,138,.4),rgba(90,58,138,.3),transparent)}
+      background:linear-gradient(90deg,transparent,rgba(74,222,128,.7),rgba(52,211,153,.5),transparent)}
     [data-theme="strategist"] .hero::after{
-      background:linear-gradient(90deg,transparent,rgba(26,80,138,.05),transparent)}
-    [data-theme="strategist"] .hero-brand{color:var(--blue)}
-    [data-theme="strategist"] .hero-sys-title{color:var(--text)}
-    [data-theme="strategist"] .hero-sys-sub{color:var(--td)}
-    [data-theme="strategist"] .hero-metric{
-      background:rgba(240,240,234,.68);border-color:rgba(26,80,138,.14)}
-    [data-theme="strategist"] .hm-label{color:var(--td)}
-    [data-theme="strategist"] .hm-value{color:var(--text)}
-    [data-theme="strategist"] .hm-ai .hm-value{color:var(--green)}
-    [data-theme="strategist"] .hm-note{color:var(--tm)}
-    [data-theme="strategist"] .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1)}
-    [data-theme="strategist"] .roi-box{background:linear-gradient(135deg,#f5f5f0 0%,rgba(90,58,138,.06) 100%);border-color:rgba(90,58,138,.18)}
-    [data-theme="strategist"] .cal-day.today{background:linear-gradient(135deg,#fff,rgba(26,80,138,.04));border-color:rgba(26,80,138,.35)}
+      background:linear-gradient(90deg,transparent,rgba(74,222,128,.05),transparent)}
     [data-theme="investor"] .hero{
       background:
-        linear-gradient(105deg,
-          rgba(8,8,7,.97) 0%,
-          rgba(8,8,7,.93) 32%,
-          rgba(160,100,8,.30) 52%,
-          rgba(200,144,24,.06) 72%,
-          rgba(8,8,7,.02) 100%),
-        url('images/after-cmd.jpg') 100% center / 200% auto no-repeat,
-        #080807;
-      border-color:rgba(200,144,24,.28)}
+        radial-gradient(ellipse at 66% 34%, rgba(168,85,247,.28) 0%, transparent 52%),
+        radial-gradient(ellipse at 88% 88%, rgba(139,92,246,.10) 0%, transparent 30%),
+        radial-gradient(ellipse at 12% 12%, rgba(109,40,217,.08) 0%, transparent 28%),
+        #060408;
+      border-color:rgba(168,85,247,.28)}
     [data-theme="investor"] .hero::before{
-      background:linear-gradient(90deg,transparent,rgba(200,144,24,.6),rgba(224,184,56,.5),transparent)}
+      background:linear-gradient(90deg,transparent,rgba(168,85,247,.7),rgba(192,132,252,.5),transparent)}
     [data-theme="investor"] .hero::after{
-      background:linear-gradient(90deg,transparent,rgba(200,144,24,.05),transparent)}
-    [data-theme="investor"] .hero-metric{border-color:rgba(200,144,24,.14)}
-    [data-theme="investor"] .hm-value{color:var(--yellow)}
+      background:linear-gradient(90deg,transparent,rgba(168,85,247,.05),transparent)}
+    [data-theme="investor"] .hero-metric{border-color:rgba(168,85,247,.18)}
+    [data-theme="investor"] .hm-value{color:var(--pl)}
     [data-theme="investor"] .hm-ai .hm-value{color:var(--green)}
-    [data-theme="investor"] .roi-box{border-color:rgba(200,144,24,.18)}
+    [data-theme="investor"] .roi-box{border-color:rgba(168,85,247,.22)}
 
     /* ── Per-theme number/accent styling ── */
     [data-theme="architect"] .hm-value{text-shadow:0 0 22px rgba(85,170,255,.4)}
@@ -376,9 +348,9 @@
     [data-theme="architect"] .fin-val{text-shadow:0 0 14px rgba(85,170,255,.3)}
     [data-theme="architect"] .pj-metric{text-shadow:0 0 14px rgba(85,170,255,.3)}
     [data-theme="architect"] .focus-num{text-shadow:0 0 18px rgba(85,119,238,.5)}
-    [data-theme="investor"] .fin-val{color:var(--yellow)}
-    [data-theme="investor"] .pj-metric{color:var(--yellow)}
-    [data-theme="investor"] .focus-num{color:var(--yellow)}
+    [data-theme="investor"] .fin-val{color:var(--pl)}
+    [data-theme="investor"] .pj-metric{color:var(--pl)}
+    [data-theme="investor"] .focus-num{color:var(--pl)}
     [data-theme="strategist"] .fin-val{color:var(--text)}
     [data-theme="strategist"] .pj-metric{color:var(--text)}
     [data-theme="strategist"] .pj-name{color:var(--text)}
@@ -410,8 +382,8 @@
         <div class="theme-switcher">
           <button class="th-btn" data-theme="commander" title="指令室モード">⚡</button>
           <button class="th-btn" data-theme="architect" title="設計室モード">📐</button>
-          <button class="th-btn" data-theme="strategist" title="戦略マップモード">🗺️</button>
-          <button class="th-btn" data-theme="investor" title="役員室モード">📊</button>
+          <button class="th-btn" data-theme="strategist" title="駿馬ターミナル">💻</button>
+          <button class="th-btn" data-theme="investor" title="覇者モード">👑</button>
         </div>
       </div>
     </div>
