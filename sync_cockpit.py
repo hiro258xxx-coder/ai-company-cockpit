@@ -200,7 +200,7 @@ subprocess.run([sys.executable, os.path.join(COCKPIT_DIR, "generate.py")], check
 
 # ── 6. git push ───────────────────────────────────────────────
 os.chdir(COCKPIT_DIR)
-subprocess.run(["git", "add", "data.json", "history.json", "calendar.json", "index.html"], check=True)
+subprocess.run(["git", "add", "data.json", "history.json", "calendar.json", "index.html", "images/"], check=True)
 
 result = subprocess.run(["git", "diff", "--staged", "--quiet"])
 if result.returncode != 0:
