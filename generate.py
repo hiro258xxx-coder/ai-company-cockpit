@@ -108,22 +108,22 @@ TEMPLATE = """\
 
     /* ── Hero ── */
     .hero{
-      position:relative;min-height:460px;margin-bottom:24px;
+      position:relative;min-height:520px;margin-bottom:24px;
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        radial-gradient(ellipse at 68% 36%, rgba(56,189,248,.22) 0%, transparent 54%),
-        radial-gradient(ellipse at 90% 92%, rgba(56,189,248,.07) 0%, transparent 28%),
-        radial-gradient(ellipse at 8% 8%, rgba(139,111,255,.06) 0%, transparent 28%),
+        linear-gradient(108deg, rgba(1,4,8,.97) 0%, rgba(1,4,8,.90) 26%, rgba(1,4,8,.52) 50%, rgba(1,4,8,.14) 76%, rgba(1,4,8,.04) 100%),
+        radial-gradient(ellipse at 6% 85%, rgba(56,189,248,.18) 0%, transparent 30%),
+        url('images/emperor-cmd.png') center/cover no-repeat,
         #010408;
-      border:1px solid rgba(56,189,248,.22)}
+      border:1px solid rgba(56,189,248,.28)}
     .hero::before{
       content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:5;
       background:linear-gradient(90deg,transparent,rgba(56,189,248,.7),rgba(139,111,255,.6),transparent)}
     .hero::after{
-      content:'';position:absolute;top:0;width:32%;height:100%;z-index:5;
-      background:linear-gradient(90deg,transparent,rgba(56,189,248,.04),transparent);
-      animation:scan 10s linear infinite;pointer-events:none}
+      content:'';position:absolute;top:0;width:28%;height:100%;z-index:5;
+      background:linear-gradient(90deg,transparent,rgba(56,189,248,.03),transparent);
+      animation:scan 12s linear infinite;pointer-events:none}
     /* Hero top bar */
     .hero-top{
       display:flex;justify-content:space-between;align-items:flex-start;
@@ -152,9 +152,13 @@ TEMPLATE = """\
     .hero-metric{
       flex:1;min-width:135px;
       padding:14px 18px;border-radius:14px;
-      background:rgba(8,8,15,.58);
-      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-      border:1px solid rgba(255,255,255,.1)}
+      background:rgba(8,8,15,.62);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(56,189,248,.14)}
+    /* Commander: 2×2 grid constrained to left side */
+    [data-theme="commander"] .hero-bottom{max-width:55%}
+    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    [data-theme="commander"] .hero-metric{flex:unset;min-width:unset;border-color:rgba(56,189,248,.18)}
     .hm-label{font-size:10px;color:var(--td);font-weight:600;
       letter-spacing:.06em;margin-bottom:7px}
     .hm-value{font-size:26px;font-weight:900;color:#fff;line-height:1}
@@ -367,7 +371,10 @@ TEMPLATE = """\
       --text:#ede9fe;--td:#c4b5fd;--tm:#8b5cf6;
     }
 
-    /* ── Per-theme Hero backgrounds ── */
+    /* ── Per-theme Hero backgrounds (non-commander: override image with CSS-only) ── */
+    [data-theme="architect"] .hero,
+    [data-theme="strategist"] .hero,
+    [data-theme="investor"] .hero{background-image:none}
     [data-theme="architect"] .hero{
       background:
         radial-gradient(ellipse at 66% 36%, rgba(85,170,255,.22) 0%, transparent 54%),
