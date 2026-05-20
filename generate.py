@@ -433,6 +433,21 @@ TEMPLATE = """\
     [data-theme="strategist"] .focus-ttl{color:var(--text)}
     [data-theme="strategist"] .focus-num{color:var(--purple)}
     [data-theme="strategist"] .dec-title{color:var(--text)}
+
+    /* ── Tab Navigation ── */
+    .tab-nav{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border)}
+    .tab-btn{
+      background:none;border:none;border-bottom:3px solid transparent;
+      padding:13px 26px 12px;font-size:11px;font-weight:700;
+      color:var(--tm);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;
+      margin-bottom:-1px;transition:color .2s,border-color .2s}
+    .tab-btn:hover{color:var(--td)}
+    .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    /* Emperor pose transition (opacity swap) */
+    .emp-pose{opacity:0;transition:opacity .38s ease}
+    .emp-pose.active{opacity:1}
   </style>
 </head>
 <body>
@@ -464,33 +479,47 @@ TEMPLATE = """\
       </div>
     </div>
   </div>
-  <!-- Emperor silhouette: seated, legs crossed, right side -->
+  <!-- Emperor silhouette: seated, crossed legs. Pose changes with active tab. -->
   <svg class="hero-emperor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 460" aria-hidden="true">
+    <!-- Common: throne, head, torso, seat, legs (unchanged across poses) -->
     <g fill="rgba(0,3,12,.94)">
-      <!-- Throne spine (tall back, central) -->
       <path d="M134 460 L134 22 Q134 6 150 2 Q166 6 166 22 L166 460 Z"/>
-      <!-- Head (solid oval, no details) -->
       <ellipse cx="150" cy="74" rx="31" ry="35"/>
-      <!-- Neck -->
       <rect x="140" y="104" width="20" height="22"/>
-      <!-- Torso: wide at shoulders, tapers to hips -->
       <path d="M74 130 C74 118 150 116 150 116 S226 118 226 130 L233 292 L67 292 Z"/>
-      <!-- Left arm along armrest -->
-      <path d="M72 146 L52 160 L50 202 L67 202 L67 168 L83 152 Z"/>
-      <!-- Right arm along armrest -->
-      <path d="M228 146 L248 160 L250 202 L233 202 L233 168 L217 152 Z"/>
-      <!-- Armrest caps -->
       <ellipse cx="60" cy="200" rx="14" ry="7"/>
       <ellipse cx="240" cy="200" rx="14" ry="7"/>
-      <!-- Seat bar -->
       <rect x="56" y="292" width="168" height="13" rx="5"/>
-      <!-- LEFT LEG: straight down, left side -->
       <path d="M64 305 L130 305 L126 382 C124 400 112 404 100 402 C87 400 82 387 84 372 L80 305 Z"/>
       <ellipse cx="102" cy="406" rx="27" ry="13"/>
-      <!-- RIGHT LEG: horizontal extension (crossed over), then angled foot -->
       <path d="M148 305 L236 305 L232 322 L148 322 Z"/>
       <path d="M212 305 L248 305 L248 352 C248 368 236 372 225 370 C213 368 210 355 210 342 L210 322 L212 322 Z"/>
       <ellipse cx="230" cy="374" rx="26" ry="13"/>
+    </g>
+    <!-- Pose 1: 数値 — both arms on armrests (regal, commanding) -->
+    <g fill="rgba(0,3,12,.94)" class="emp-pose" id="ep-kpi">
+      <path d="M72 146 L52 160 L50 202 L67 202 L67 168 L83 152 Z"/>
+      <path d="M228 146 L248 160 L250 202 L233 202 L233 168 L217 152 Z"/>
+    </g>
+    <!-- Pose 2: 事業 — right arm raised forward (presenting, decisive) -->
+    <g fill="rgba(0,3,12,.94)" class="emp-pose" id="ep-biz">
+      <path d="M72 146 L52 160 L50 202 L67 202 L67 168 L83 152 Z"/>
+      <path d="M226 148 L244 132 L258 86 L244 80 L232 120 L216 144 Z"/>
+      <ellipse cx="252" cy="80" rx="15" ry="10"/>
+    </g>
+    <!-- Pose 3: 予定 — left arm raised, wrist near face (checking time) -->
+    <g fill="rgba(0,3,12,.94)" class="emp-pose" id="ep-cal">
+      <path d="M74 148 L56 164 L52 192 L66 192 L72 166 L84 152 Z"/>
+      <path d="M52 190 L44 165 L40 116 L56 108 L62 148 L66 190 Z"/>
+      <ellipse cx="48" cy="110" rx="15" ry="10"/>
+      <path d="M228 146 L248 160 L250 202 L233 202 L233 168 L217 152 Z"/>
+    </g>
+    <!-- Pose 4: 決断 — right forearm vertical, hand near chin (deep thought) -->
+    <g fill="rgba(0,3,12,.94)" class="emp-pose" id="ep-dec">
+      <path d="M72 146 L52 160 L50 202 L67 202 L67 168 L83 152 Z"/>
+      <path d="M228 146 L248 160 L250 202 L233 202 L233 168 L217 152 Z"/>
+      <rect x="238" y="150" width="14" height="52" rx="5"/>
+      <ellipse cx="245" cy="146" rx="16" ry="11"/>
     </g>
   </svg>
   <!-- Bottom: KPI chips -->
@@ -522,13 +551,18 @@ TEMPLATE = """\
   </div>
 </div>
 
-<!-- ══ カレンダー ═══════════════════════════════════════════ -->
-<div class="cal-strip fade-in">
-  <div class="cal-strip-label">今週のスケジュール</div>
-  <div class="cal-scroll">[[CALENDAR_HTML]]</div>
-</div>
+<!-- ══ Tab Navigation ══════════════════════════════════════ -->
+<nav class="tab-nav fade-in">
+  <button class="tab-btn" data-tab="kpi">📊 数値</button>
+  <button class="tab-btn" data-tab="biz">🚀 事業</button>
+  <button class="tab-btn" data-tab="cal">📅 予定</button>
+  <button class="tab-btn" data-tab="dec">💡 決断</button>
+</nav>
 
-<!-- ══ 収益目標ダッシュボード ═══════════════════════════════ -->
+<!-- ══ Tab: 数値 ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-kpi">
+
+<!-- 収益目標ダッシュボード -->
 <div class="section fade-in d1">
   <div class="sec-title">収益目標 <span class="sec-cat-badge badge-pro" style="margin-left:8px">月次進捗</span></div>
   <div class="fin-grid">
@@ -565,7 +599,12 @@ TEMPLATE = """\
   </div>
 </div>
 
-<!-- ══ プロジェクト状況 ════════════════════════════════════ -->
+</div><!-- /tab-kpi -->
+
+<!-- ══ Tab: 事業 ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-biz">
+
+<!-- プロジェクト状況 ════════════════════════════════════ -->
 <div class="section fade-in d2">
   <div class="sec-title">
     プロジェクト状況
@@ -751,60 +790,73 @@ TEMPLATE = """\
   </div>
 </div>
 
-<!-- ══ フォーカス + 意思決定 ════════════════════════════════ -->
-<div class="two-col fade-in d4">
-  <div class="section">
-    <div class="sec-title">今月のフォーカス（Top 3）</div>
-    <div class="card focus-item">
-      <div class="focus-num">1</div>
-      <div class="focus-body">
-        <div class="focus-ttl">[[FOCUS_1_TITLE]]</div>
-        <div class="focus-desc">[[FOCUS_1_DESC]]</div>
-      </div>
-      <div class="focus-dl">[[FOCUS_1_DL]]</div>
+<!-- フォーカス (tab-biz 内) -->
+<div class="section fade-in d4">
+  <div class="sec-title">今月のフォーカス（Top 3）</div>
+  <div class="card focus-item">
+    <div class="focus-num">1</div>
+    <div class="focus-body">
+      <div class="focus-ttl">[[FOCUS_1_TITLE]]</div>
+      <div class="focus-desc">[[FOCUS_1_DESC]]</div>
     </div>
-    <div class="card focus-item">
-      <div class="focus-num">2</div>
-      <div class="focus-body">
-        <div class="focus-ttl">[[FOCUS_2_TITLE]]</div>
-        <div class="focus-desc">[[FOCUS_2_DESC]]</div>
-      </div>
-      <div class="focus-dl">[[FOCUS_2_DL]]</div>
-    </div>
-    <div class="card focus-item">
-      <div class="focus-num">3</div>
-      <div class="focus-body">
-        <div class="focus-ttl">[[FOCUS_3_TITLE]]</div>
-        <div class="focus-desc">[[FOCUS_3_DESC]]</div>
-      </div>
-      <div class="focus-dl">[[FOCUS_3_DL]]</div>
-    </div>
+    <div class="focus-dl">[[FOCUS_1_DL]]</div>
   </div>
-  <div class="section">
-    <div class="sec-title">直近の意思決定</div>
-    <div class="card dec-item">
-      <div class="dec-date">[[DEC_1_DATE]]</div>
-      <div class="dec-title">[[DEC_1_TITLE]]</div>
-      <div class="dec-reason">[[DEC_1_REASON]]</div>
+  <div class="card focus-item">
+    <div class="focus-num">2</div>
+    <div class="focus-body">
+      <div class="focus-ttl">[[FOCUS_2_TITLE]]</div>
+      <div class="focus-desc">[[FOCUS_2_DESC]]</div>
     </div>
-    <div class="card dec-item">
-      <div class="dec-date">[[DEC_2_DATE]]</div>
-      <div class="dec-title">[[DEC_2_TITLE]]</div>
-      <div class="dec-reason">[[DEC_2_REASON]]</div>
+    <div class="focus-dl">[[FOCUS_2_DL]]</div>
+  </div>
+  <div class="card focus-item">
+    <div class="focus-num">3</div>
+    <div class="focus-body">
+      <div class="focus-ttl">[[FOCUS_3_TITLE]]</div>
+      <div class="focus-desc">[[FOCUS_3_DESC]]</div>
     </div>
-    <div class="card dec-item">
-      <div class="dec-date">[[DEC_3_DATE]]</div>
-      <div class="dec-title">[[DEC_3_TITLE]]</div>
-      <div class="dec-reason">[[DEC_3_REASON]]</div>
-    </div>
+    <div class="focus-dl">[[FOCUS_3_DL]]</div>
   </div>
 </div>
 
-<!-- ══ 変更履歴 ════════════════════════════════════════════ -->
-<div class="section fade-in d5">
+</div><!-- /tab-biz -->
+
+<!-- ══ Tab: 予定 ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-cal">
+<div class="cal-strip fade-in">
+  <div class="cal-strip-label">今週のスケジュール</div>
+  <div class="cal-scroll">[[CALENDAR_HTML]]</div>
+</div>
+</div><!-- /tab-cal -->
+
+<!-- ══ Tab: 決断 ════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-dec">
+
+<div class="section fade-in">
+  <div class="sec-title">直近の意思決定</div>
+  <div class="card dec-item">
+    <div class="dec-date">[[DEC_1_DATE]]</div>
+    <div class="dec-title">[[DEC_1_TITLE]]</div>
+    <div class="dec-reason">[[DEC_1_REASON]]</div>
+  </div>
+  <div class="card dec-item">
+    <div class="dec-date">[[DEC_2_DATE]]</div>
+    <div class="dec-title">[[DEC_2_TITLE]]</div>
+    <div class="dec-reason">[[DEC_2_REASON]]</div>
+  </div>
+  <div class="card dec-item">
+    <div class="dec-date">[[DEC_3_DATE]]</div>
+    <div class="dec-title">[[DEC_3_TITLE]]</div>
+    <div class="dec-reason">[[DEC_3_REASON]]</div>
+  </div>
+</div>
+
+<div class="section fade-in d1">
   <div class="sec-title">変更履歴</div>
   <div class="hist-list">[[HISTORY_HTML]]</div>
 </div>
+
+</div><!-- /tab-dec -->
 
 <div class="footer fade-in d5">
   K-Dashboard — AI カンパニー 戦略指令センター — 毎朝 8:00 JST 自動更新
@@ -867,6 +919,22 @@ TEMPLATE = """\
       openPicker.classList.remove('open'); openPicker=null;
     }
   });
+
+  // Tab + Emperor pose switcher
+  (function(){
+    var poseMap={kpi:'ep-kpi',biz:'ep-biz',cal:'ep-cal',dec:'ep-dec'};
+    function switchTab(t){
+      document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab===t)});
+      document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.toggle('active',p.id==='tab-'+t)});
+      document.querySelectorAll('.emp-pose').forEach(function(g){g.classList.toggle('active',g.id===poseMap[t])});
+      localStorage.setItem('cp_tab',t);
+    }
+    var saved=localStorage.getItem('cp_tab')||'kpi';
+    switchTab(saved);
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.addEventListener('click',function(){switchTab(b.dataset.tab)});
+    });
+  })();
 </script>
 </body>
 </html>"""
