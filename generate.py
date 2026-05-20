@@ -108,11 +108,11 @@ TEMPLATE = """\
 
     /* ── Hero ── */
     .hero{
-      position:relative;min-height:520px;margin-bottom:24px;
+      position:relative;min-height:600px;margin-bottom:24px;
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(to right, rgba(1,4,8,.94) 0%, rgba(1,4,8,.65) 36%, rgba(1,4,8,.20) 65%, rgba(1,4,8,.05) 100%),
+        linear-gradient(to right, rgba(1,4,8,.96) 0%, rgba(1,4,8,.82) 28%, rgba(1,4,8,.30) 58%, rgba(1,4,8,.08) 100%),
         url('images/emperor-sf.png') center/cover no-repeat,
         #010408;
       border:1px solid rgba(56,189,248,.28)}
@@ -154,10 +154,36 @@ TEMPLATE = """\
       background:rgba(8,8,15,.62);
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       border:1px solid rgba(56,189,248,.14)}
-    /* Commander: 2×2 grid constrained to left side */
-    [data-theme="commander"] .hero-bottom{max-width:55%}
-    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    [data-theme="commander"] .hero-metric{flex:unset;min-width:unset;border-color:rgba(56,189,248,.18)}
+    /* Commander: seated emperor viewing monitor — KPI panels overlay the monitor area */
+    [data-theme="commander"] .hero{
+      background:
+        linear-gradient(to bottom, rgba(1,4,8,.30) 0%, rgba(1,4,8,.05) 28%, rgba(1,4,8,.08) 58%, rgba(1,4,8,.70) 100%),
+        url('images/emperor-seated.png') top center/cover no-repeat,
+        #010408}
+    [data-theme="commander"] .hero-bottom{
+      position:absolute;left:50%;top:38%;
+      transform:translate(-50%,-50%);
+      width:62%;max-width:600px;padding:0;z-index:6}
+    [data-theme="commander"] .hero-sys-title{
+      font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      color:rgba(56,189,248,.55);margin-bottom:16px}
+    [data-theme="commander"] .hero-sys-sub{display:none}
+    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    [data-theme="commander"] .hero-metric{
+      flex:unset;min-width:unset;
+      background:rgba(2,5,14,.82);
+      backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+      border:1px solid rgba(56,189,248,.24);
+      padding:24px 28px;
+      border-radius:14px;
+      box-shadow:0 0 44px rgba(56,189,248,.10),inset 0 1px 0 rgba(56,189,248,.14),0 16px 48px rgba(0,0,0,.72)}
+    [data-theme="commander"] .hm-label{
+      font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(56,189,248,.55);margin-bottom:10px}
+    [data-theme="commander"] .hm-value{font-size:38px;text-shadow:0 0 26px rgba(56,189,248,.55);line-height:1.05}
+    [data-theme="commander"] .hm-ai .hm-value{color:var(--green);text-shadow:0 0 24px rgba(74,222,128,.50)}
+    [data-theme="commander"] .hm-sub{color:var(--green);font-size:11px;margin-top:8px;font-weight:700}
+    [data-theme="commander"] .hm-note{color:rgba(56,189,248,.45);font-size:10px;margin-top:6px}
     .hm-label{font-size:10px;color:var(--td);font-weight:600;
       letter-spacing:.06em;margin-bottom:7px}
     .hm-value{font-size:26px;font-weight:900;color:#fff;line-height:1}
@@ -336,7 +362,7 @@ TEMPLATE = """\
     /* ── Responsive ── */
     @media(max-width:1200px){.fin-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:900px){body{padding:16px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.hero-metrics{gap:8px}}
-    @media(max-width:600px){.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}.hero{min-height:360px}.hm-value{font-size:20px}}
+    @media(max-width:600px){.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}.hero{min-height:360px}.hm-value{font-size:20px}[data-theme="commander"] .hero-bottom{position:static;width:100%;transform:none;padding:18px 18px 20px;top:auto;left:auto}[data-theme="commander"] .hm-value{font-size:22px}}
 
     /* ── Theme Variables ── */
     [data-theme="architect"]{
