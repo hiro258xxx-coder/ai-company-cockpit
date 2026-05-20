@@ -44,7 +44,7 @@
 
     /* ── Hero ── */
     .hero{
-      position:relative;min-height:560px;margin-bottom:24px;
+      position:relative;min-height:600px;margin-bottom:24px;
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
@@ -90,34 +90,34 @@
       background:rgba(8,8,15,.62);
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       border:1px solid rgba(56,189,248,.14)}
-    /* Commander: emperor surveys holographic data — panels DOMINATE center of hero */
+    /* Commander: seated emperor viewing monitor — KPI panels overlay the monitor area */
     [data-theme="commander"] .hero{
       background:
-        linear-gradient(to bottom, rgba(1,4,8,.70) 0%, rgba(1,4,8,.18) 35%, rgba(1,4,8,.30) 68%, rgba(1,4,8,.92) 100%),
-        url('images/emperor-sf.png') center/cover no-repeat,
+        linear-gradient(to bottom, rgba(1,4,8,.30) 0%, rgba(1,4,8,.05) 28%, rgba(1,4,8,.08) 58%, rgba(1,4,8,.70) 100%),
+        url('images/emperor-seated.png') top center/cover no-repeat,
         #010408}
     [data-theme="commander"] .hero-bottom{
-      position:absolute;left:50%;top:50%;
-      transform:translate(-50%,-44%);
-      width:72%;max-width:660px;padding:0;z-index:6}
+      position:absolute;left:50%;top:38%;
+      transform:translate(-50%,-50%);
+      width:62%;max-width:600px;padding:0;z-index:6}
     [data-theme="commander"] .hero-sys-title{
-      font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-      color:rgba(56,189,248,.60);margin-bottom:18px}
+      font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      color:rgba(56,189,248,.55);margin-bottom:16px}
     [data-theme="commander"] .hero-sys-sub{display:none}
-    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     [data-theme="commander"] .hero-metric{
       flex:unset;min-width:unset;
-      background:rgba(2,5,14,.80);
-      backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
-      border:1px solid rgba(56,189,248,.26);
-      padding:26px 30px;
-      border-radius:16px;
-      box-shadow:0 0 48px rgba(56,189,248,.10),inset 0 1px 0 rgba(56,189,248,.16),0 20px 60px rgba(0,0,0,.68)}
+      background:rgba(2,5,14,.82);
+      backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+      border:1px solid rgba(56,189,248,.24);
+      padding:24px 28px;
+      border-radius:14px;
+      box-shadow:0 0 44px rgba(56,189,248,.10),inset 0 1px 0 rgba(56,189,248,.14),0 16px 48px rgba(0,0,0,.72)}
     [data-theme="commander"] .hm-label{
       font-size:9px;letter-spacing:.16em;text-transform:uppercase;
-      color:rgba(56,189,248,.60);margin-bottom:12px}
-    [data-theme="commander"] .hm-value{font-size:40px;text-shadow:0 0 28px rgba(56,189,248,.55);line-height:1.05}
-    [data-theme="commander"] .hm-ai .hm-value{color:var(--green);text-shadow:0 0 26px rgba(74,222,128,.50)}
+      color:rgba(56,189,248,.55);margin-bottom:10px}
+    [data-theme="commander"] .hm-value{font-size:38px;text-shadow:0 0 26px rgba(56,189,248,.55);line-height:1.05}
+    [data-theme="commander"] .hm-ai .hm-value{color:var(--green);text-shadow:0 0 24px rgba(74,222,128,.50)}
     [data-theme="commander"] .hm-sub{color:var(--green);font-size:11px;margin-top:8px;font-weight:700}
     [data-theme="commander"] .hm-note{color:rgba(56,189,248,.45);font-size:10px;margin-top:6px}
     .hm-label{font-size:10px;color:var(--td);font-weight:600;
