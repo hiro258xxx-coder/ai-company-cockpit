@@ -154,16 +154,16 @@ TEMPLATE = """\
       background:rgba(8,8,15,.62);
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       border:1px solid rgba(56,189,248,.14)}
-    /* Commander: seated emperor viewing monitor — KPI panels overlay the monitor area */
+    /* Commander: emperor gazes at city — KPI panels float as holograms in the open space */
     [data-theme="commander"] .hero{
       background:
-        linear-gradient(to bottom, rgba(1,4,8,.30) 0%, rgba(1,4,8,.05) 28%, rgba(1,4,8,.08) 58%, rgba(1,4,8,.70) 100%),
-        url('images/emperor-seated.png') top center/cover no-repeat,
+        linear-gradient(to bottom, rgba(1,4,8,.28) 0%, rgba(1,4,8,.06) 22%, rgba(1,4,8,.08) 55%, rgba(1,4,8,.72) 100%),
+        url('images/emperor-city.png') center/cover no-repeat,
         #010408}
     [data-theme="commander"] .hero-bottom{
-      position:absolute;left:50%;top:38%;
+      position:absolute;left:50%;top:30%;
       transform:translate(-50%,-50%);
-      width:62%;max-width:600px;padding:0;z-index:6}
+      width:65%;max-width:640px;padding:0;z-index:6}
     [data-theme="commander"] .hero-sys-title{
       font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
       color:rgba(56,189,248,.55);margin-bottom:16px}
