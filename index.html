@@ -44,11 +44,11 @@
 
     /* ── Hero ── */
     .hero{
-      position:relative;min-height:520px;margin-bottom:24px;
+      position:relative;min-height:560px;margin-bottom:24px;
       border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;justify-content:space-between;
       background:
-        linear-gradient(to right, rgba(1,4,8,.94) 0%, rgba(1,4,8,.65) 36%, rgba(1,4,8,.20) 65%, rgba(1,4,8,.05) 100%),
+        linear-gradient(to right, rgba(1,4,8,.96) 0%, rgba(1,4,8,.82) 28%, rgba(1,4,8,.30) 58%, rgba(1,4,8,.08) 100%),
         url('images/emperor-sf.png') center/cover no-repeat,
         #010408;
       border:1px solid rgba(56,189,248,.28)}
@@ -90,10 +90,21 @@
       background:rgba(8,8,15,.62);
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       border:1px solid rgba(56,189,248,.14)}
-    /* Commander: 2×2 grid constrained to left side */
-    [data-theme="commander"] .hero-bottom{max-width:55%}
-    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    [data-theme="commander"] .hero-metric{flex:unset;min-width:unset;border-color:rgba(56,189,248,.18)}
+    /* Commander: holographic KPI panels on right (city-view) side of hero */
+    [data-theme="commander"] .hero-bottom{position:absolute;right:28px;bottom:26px;width:60%;max-width:none;padding:0;z-index:6}
+    [data-theme="commander"] .hero-sys-title{display:none}
+    [data-theme="commander"] .hero-sys-sub{display:none}
+    [data-theme="commander"] .hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    [data-theme="commander"] .hero-metric{
+      flex:unset;min-width:unset;
+      background:rgba(2,6,16,.74);
+      backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+      border:1px solid rgba(56,189,248,.24);
+      padding:20px 24px;
+      box-shadow:0 0 36px rgba(56,189,248,.08),inset 0 1px 0 rgba(56,189,248,.12),0 8px 32px rgba(0,0,0,.55)}
+    [data-theme="commander"] .hm-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+    [data-theme="commander"] .hm-value{font-size:34px;text-shadow:0 0 22px rgba(56,189,248,.5)}
+    [data-theme="commander"] .hm-ai .hm-value{text-shadow:0 0 22px rgba(74,222,128,.45)}
     .hm-label{font-size:10px;color:var(--td);font-weight:600;
       letter-spacing:.06em;margin-bottom:7px}
     .hm-value{font-size:26px;font-weight:900;color:#fff;line-height:1}
@@ -272,7 +283,7 @@
     /* ── Responsive ── */
     @media(max-width:1200px){.fin-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:900px){body{padding:16px}.project-grid{grid-template-columns:repeat(2,1fr)}.auto-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.hero-metrics{gap:8px}}
-    @media(max-width:600px){.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}.hero{min-height:360px}.hm-value{font-size:20px}}
+    @media(max-width:600px){.project-grid{grid-template-columns:1fr}.fin-grid{grid-template-columns:1fr 1fr}.hero{min-height:360px}.hm-value{font-size:20px}[data-theme="commander"] .hero-bottom{position:static;width:100%;padding:0 18px 20px}[data-theme="commander"] .hm-value{font-size:22px}}
 
     /* ── Theme Variables ── */
     [data-theme="architect"]{
